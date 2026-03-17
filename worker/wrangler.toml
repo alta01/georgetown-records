@@ -1,0 +1,13 @@
+name = "gtky-pipeline"
+main = "src/worker.js"
+compatibility_date = "2024-01-01"
+
+[triggers]
+crons = ["*/30 * * * *"]
+
+[[kv_namespaces]]
+binding = "KV"
+id = "a12ac72ca7354ff090b1aa34e17305fb"
+
+# Secrets — set via CLI, never committed:
+#   wrangler secret put ANTHROPIC_KEY

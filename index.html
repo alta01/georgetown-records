@@ -5928,7 +5928,7 @@ const VOTES = [
 // ═══════════════════════════════════════════════════════
 // PIPELINE (single definition)
 // ═══════════════════════════════════════════════════════
-const R2_URL = 'https://YOUR-WORKER.workers.dev/records';
+const R2_URL = 'https://gtky-pipeline.altanetworks.workers.dev/records';
 let pipelineLoaded = 0;
 
 async function loadPipeline() {
@@ -7714,7 +7714,7 @@ function updateElectionCountdown() {
 // The archiver runs as a second cron job on the Worker (daily, not 30-min).
 // Cost: R2 storage ~$0.015/GB/month. 200 PDFs × ~500KB = ~100MB = ~$0.0015/mo.
 
-const PDF_ARCHIVE_BASE = 'https://YOUR-WORKER.workers.dev/archive/';
+const PDF_ARCHIVE_BASE = 'https://gtky-pipeline.altanetworks.workers.dev/archive/';
 // When a source URL matches georgetownky.gov and ends in .pdf or ViewFile,
 // the frontend checks the archived copy first as a fallback.
 

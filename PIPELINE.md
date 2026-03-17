@@ -66,10 +66,10 @@ wrangler secret put ANTHROPIC_KEY     # optional — enables AI summaries
 wrangler deploy
 ```
 
-After deployment, replace `R2_URL` in `index.html`:
+After deployment, `R2_URL` in `index.html` must point to the deployed worker:
 
 ```js
-const R2_URL = 'https://YOUR-WORKER.workers.dev/records';
+const R2_URL = 'https://gtky-pipeline.altanetworks.workers.dev/records';
 ```
 
 ---
@@ -78,18 +78,18 @@ const R2_URL = 'https://YOUR-WORKER.workers.dev/records';
 
 RSS feed listing: `https://www.georgetownky.gov/rss.aspx#agendaCenter`
 
-| CID | Committee | Cadence |
-|-----|-----------|---------|
-| 1 | City Council | 2×/month |
-| 2 | Finance | Monthly |
-| 3 | Fire | Monthly |
-| 4 | Traffic | Monthly |
-| 5 | Police | Monthly |
-| 6 | Public Works | Monthly |
-| 7 | Interlocal | Quarterly |
-| 10 | Miscellaneous | As needed |
+| CID slug | Committee | Cadence |
+|----------|-----------|---------|
+| City-Council-1 | City Council | 2×/month |
+| Finance-Committee-2 | Finance | Monthly |
+| Fire-Committee-3 | Fire | Monthly |
+| Traffic-Committee-4 | Traffic | Monthly |
+| Police-Committee-5 | Police | Monthly |
+| Public-Works-Committee-6 | Public Works | Monthly |
+| Interlocal-Committee-7 | Interlocal | Quarterly |
+| Miscellaneous-Committees-10 | Miscellaneous | As needed |
 
-Base URL: `https://www.georgetownky.gov/AgendaCenter/RSS?CID={N}`
+Base URL: `https://www.georgetownky.gov/RSSFeed.aspx?ModID=65&CID={slug}`
 
 ---
 
@@ -97,16 +97,16 @@ Base URL: `https://www.georgetownky.gov/AgendaCenter/RSS?CID={N}`
 
 ```js
 const FEEDS = [
-  { cat: 'City Council',  cid: 1  },
-  { cat: 'Finance',       cid: 2  },
-  { cat: 'Fire',          cid: 3  },
-  { cat: 'Traffic',       cid: 4  },
-  { cat: 'Police',        cid: 5  },
-  { cat: 'Public Works',  cid: 6  },
-  { cat: 'Interlocal',    cid: 7  },
-  { cat: 'Miscellaneous', cid: 10 },
+  { cat: 'City Council',  cid: 'City-Council-1'            },
+  { cat: 'Finance',       cid: 'Finance-Committee-2'        },
+  { cat: 'Fire',          cid: 'Fire-Committee-3'           },
+  { cat: 'Traffic',       cid: 'Traffic-Committee-4'        },
+  { cat: 'Police',        cid: 'Police-Committee-5'         },
+  { cat: 'Public Works',  cid: 'Public-Works-Committee-6'   },
+  { cat: 'Interlocal',    cid: 'Interlocal-Committee-7'     },
+  { cat: 'Miscellaneous', cid: 'Miscellaneous-Committees-10'},
 ];
-const BASE = 'https://www.georgetownky.gov/AgendaCenter/RSS?CID=';
+const BASE = 'https://www.georgetownky.gov/RSSFeed.aspx?ModID=65&CID=';
 
 export default {
   async scheduled(event, env, ctx) {
