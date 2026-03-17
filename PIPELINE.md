@@ -76,15 +76,18 @@ const R2_URL = 'https://YOUR-WORKER.workers.dev/records';
 
 ## RSS Feed Sources
 
+RSS feed listing: `https://www.georgetownky.gov/rss.aspx#agendaCenter`
+
 | CID | Committee | Cadence |
 |-----|-----------|---------|
 | 1 | City Council | 2×/month |
 | 2 | Finance | Monthly |
 | 3 | Fire | Monthly |
-| 4 | Interlocal | Quarterly |
+| 4 | Traffic | Monthly |
 | 5 | Police | Monthly |
 | 6 | Public Works | Monthly |
-| 7 | Traffic | Monthly |
+| 7 | Interlocal | Quarterly |
+| 10 | Miscellaneous | As needed |
 
 Base URL: `https://www.georgetownky.gov/AgendaCenter/RSS?CID={N}`
 
@@ -94,13 +97,14 @@ Base URL: `https://www.georgetownky.gov/AgendaCenter/RSS?CID={N}`
 
 ```js
 const FEEDS = [
-  { cat: 'City Council',  cid: 1 },
-  { cat: 'Finance',       cid: 2 },
-  { cat: 'Fire',          cid: 3 },
-  { cat: 'Interlocal',    cid: 4 },
-  { cat: 'Police',        cid: 5 },
-  { cat: 'Public Works',  cid: 6 },
-  { cat: 'Traffic',       cid: 7 },
+  { cat: 'City Council',  cid: 1  },
+  { cat: 'Finance',       cid: 2  },
+  { cat: 'Fire',          cid: 3  },
+  { cat: 'Traffic',       cid: 4  },
+  { cat: 'Police',        cid: 5  },
+  { cat: 'Public Works',  cid: 6  },
+  { cat: 'Interlocal',    cid: 7  },
+  { cat: 'Miscellaneous', cid: 10 },
 ];
 const BASE = 'https://www.georgetownky.gov/AgendaCenter/RSS?CID=';
 
@@ -378,7 +382,7 @@ Archive URL format: `https://YOUR-WORKER.workers.dev/archive/{base64url-encoded-
 | CF R2 storage (<1 GB) | $0.00 |
 | CF KV reads (10M/day free tier) | $0.00 |
 | CF Worker requests (10M/mo free) | $0.00 |
-| RSS polling (48×/day × 7 feeds) | $0.00 |
+| RSS polling (48×/day × 8 feeds) | $0.00 |
 | PDF summarizer — 30 meetings/mo (Haiku) | ~$0.03 |
 | Fact-check — 100 checks/day (Haiku) | ~$3.00 |
 | Fact-check — 1,000 checks/day (Haiku) | ~$30.00 |
