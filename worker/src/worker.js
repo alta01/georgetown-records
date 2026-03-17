@@ -1,3 +1,5 @@
+import { enrichItem } from './enricher.js';
+
 const FEEDS = [
   { cat: 'City Council',  cid: 'City-Council-1'           },
   { cat: 'Finance',       cid: 'Finance-Committee-2'       },
@@ -15,8 +17,8 @@ export default {
     const newItems = [];
     for (const feed of FEEDS) {
       try {
-        const res  = await fetch(BASE + feed.cid, { cf: { cacheEverything: false } });
-        const xml  = await res.text();
+        const res   = await fetch(BASE + feed.cid, { cf: { cacheEverything: false } });
+        const xml   = await res.text();
         const items = parseRSS(xml, feed.cat);
         for (const item of items) {
           const key = 'seen:' + item.guid;
@@ -30,14 +32,13 @@ export default {
       const prev   = await getKVRecords(env);
       const merged = [...newItems, ...prev].slice(0, 500);
       await env.KV.put('records', JSON.stringify(merged));
-      if (env.ANTHROPIC_KEY) ctx.waitUntil(summarizeNewItems(newItems, env));
+      if (env.ANTHROPIC_KEY) ctx.waitUntil(processNewItems(newItems, env));
     }
   },
 
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // CORS preflight
     if (request.method === 'OPTIONS') {
       return new Response(null, {
         headers: {
@@ -105,9 +106,10 @@ function inferTopics(cat) {
              Police:['police'], 'Public Works':['pw'], Traffic:['pw'] })[cat] || ['motion'];
 }
 
-// ── AI Summarizer (Phase 2, requires ANTHROPIC_KEY) ─────────────────────────
+// ── AI Processing: summarize PDFs then fact-check all items ─────────────────
 
-async function summarizeNewItems(items, env) {
+async function processNewItems(items, env) {
+  // Phase 1: deep summarization for PDF agenda/minutes files
   for (const item of items) {
     if (!item.url?.endsWith('.pdf')) continue;
     try {
@@ -135,6 +137,15 @@ Return raw JSON only.`,
       item.aiSummarized = true;
     } catch(e) { console.error('Summarizer:', e); }
   }
+
+  // Phase 2: fact-check and enrich all items via enricher.js
+  for (const item of items) {
+    try {
+      const enriched = await enrichItem(item, env);
+      Object.assign(item, enriched);
+    } catch(e) { console.error('Enricher:', item.guid, e); }
+  }
+
   await updateKVRecords(items, env);
 }
 
