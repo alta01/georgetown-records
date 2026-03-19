@@ -28,22 +28,28 @@ export async function runFC() {
   const btn = document.getElementById('fc-btn'), loading = document.getElementById('fc-loading'), result = document.getElementById('fc-result');
   btn.disabled = true; loading.classList.add('show'); result.classList.remove('show');
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ model:'claude-haiku-4-5-20251001', max_tokens:800, system:`You are a fact-checking agent for Georgetown, Kentucky public records. Return ONLY raw JSON (no markdown):\n{"verdict":"Supported"|"Partially Supported"|"Unsupported"|"Insufficient Data","confidence":"High"|"Medium"|"Low","summary":"2-3 sentences","evidence":["..."],"discrepancies":["..."],"sources":["..."]}\nNever invent data. Flag exact number/date/name errors in discrepancies.\n${buildCtx()}`, messages:[{role:'user',content:`Fact-check: "${stmt}"`}] }) });
+    // Route through Cloudflare Worker proxy to avoid exposing API keys client-side.
+    // SECURITY: Never put API keys in client-side JavaScript — they are visible in
+    // DevTools, browser history, and cached responses. The worker holds the key as a secret.
+    const FC_PROXY = 'https://gtky-pipeline.altanetworks.workers.dev/factcheck';
+    const res = await fetch(FC_PROXY, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ statement: stmt, context: buildCtx() }) });
     const data = await res.json();
     let raw = (data.content||[]).map(c=>c.text||'').join('').replace(/```json|```/g,'').trim();
     let p; try { p = JSON.parse(raw); } catch { p = {verdict:'Insufficient Data',confidence:'Low',summary:raw.slice(0,300),evidence:[],discrepancies:[],sources:[]}; }
     const vm = {'Supported':{v:'v-sup',b:'vb-sup',i:'✅'},'Partially Supported':{v:'v-part',b:'vb-part',i:'⚠️'},'Unsupported':{v:'v-uns',b:'vb-uns',i:'❌'},'Insufficient Data':{v:'v-unk',b:'vb-unk',i:'❓'}};
     const v = vm[p.verdict]||vm['Insufficient Data'];
-    document.getElementById('fc-verdict').innerHTML = `<span class="${v.v}">${v.i} ${p.verdict}</span>&nbsp;<span class="vbadge ${v.b}">${p.confidence||''} confidence</span>`;
-    let body = `<p>${p.summary||''}</p>`;
-    if (p.evidence?.length) body += `<p style="margin-top:8px"><strong>Evidence:</strong></p><ul style="padding-left:16px;margin-top:3px">${p.evidence.map(e=>`<li style="font-size:12px;margin-bottom:2px">${e}</li>`).join('')}</ul>`;
-    if (p.discrepancies?.length) body += `<p style="margin-top:8px"><strong>Discrepancies:</strong></p><ul style="padding-left:16px;margin-top:3px">${p.discrepancies.map(d=>`<li style="font-size:12px;color:var(--red-2);margin-bottom:2px">${d}</li>`).join('')}</ul>`;
+    const _esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    document.getElementById('fc-verdict').innerHTML = `<span class="${v.v}">${v.i} ${_esc(p.verdict)}</span>&nbsp;<span class="vbadge ${v.b}">${_esc(p.confidence||'')} confidence</span>`;
+    let body = `<p>${_esc(p.summary||'')}</p>`;
+    if (p.evidence?.length) body += `<p style="margin-top:8px"><strong>Evidence:</strong></p><ul style="padding-left:16px;margin-top:3px">${p.evidence.map(e=>`<li style="font-size:12px;margin-bottom:2px">${_esc(e)}</li>`).join('')}</ul>`;
+    if (p.discrepancies?.length) body += `<p style="margin-top:8px"><strong>Discrepancies:</strong></p><ul style="padding-left:16px;margin-top:3px">${p.discrepancies.map(d=>`<li style="font-size:12px;color:var(--red-2);margin-bottom:2px">${_esc(d)}</li>`).join('')}</ul>`;
     document.getElementById('fc-body').innerHTML = body;
-    document.getElementById('fc-sources').innerHTML = p.sources?.length ? `<strong>Sources:</strong> ${p.sources.join('; ')}` : '';
+    document.getElementById('fc-sources').innerHTML = p.sources?.length ? `<strong>Sources:</strong> ${p.sources.map(s => _esc(s)).join('; ')}` : '';
     result.classList.add('show');
   } catch(err) {
     document.getElementById('fc-verdict').innerHTML = '<span class="v-unk">⚠️ Error</span>';
-    document.getElementById('fc-body').innerHTML = `<p>To activate: add your Anthropic API key to the <code>x-api-key</code> fetch header, or deploy the Cloudflare Worker proxy from the Pipeline tab. Error: ${err.message}</p>`;
+    const _e = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    document.getElementById('fc-body').innerHTML = `<p>Fact-check requires the Cloudflare Worker proxy with an <code>ANTHROPIC_KEY</code> secret configured. See the Pipeline tab for deployment instructions. Error: ${_e(err.message)}</p>`;
     document.getElementById('fc-sources').innerHTML = ''; result.classList.add('show');
   }
   btn.disabled = false; loading.classList.remove('show');

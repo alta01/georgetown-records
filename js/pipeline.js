@@ -4,7 +4,14 @@
 import { _LOG } from './logger.js';
 import { MEETINGS } from './data/meetings.js';
 
-export const R2_URL = 'https://YOUR-WORKER.workers.dev/records';
+// Sanitize external data before DOM insertion
+const _esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function safeUrl(u) {
+  if (!u) return '';
+  try { const p = new URL(u); return (p.protocol === 'https:' || p.protocol === 'http:') ? u : ''; } catch { return ''; }
+}
+
+export const R2_URL = 'https://gtky-pipeline.altanetworks.workers.dev/records';
 export let pipelineLoaded = 0;
 export let pipelineItems = [];
 
@@ -34,12 +41,13 @@ export async function loadPipeline() {
     const seen = new Set(MEETINGS.map(m => m.url));
     let added = 0;
     items.forEach(item => {
-      if (!item.url || seen.has(item.url)) return;
-      seen.add(item.url);
-      MEETINGS.unshift({ mo:item.mo||'\u2014', dy:item.dy||'\u2014', yr:item.yr||'2025',
-        type:item.type||'Agenda', title:item.title||'New Record',
-        sum:item.sum||item.description||'New record from live feed.',
-        topics:item.topics||['motion'], url:item.url, f:'New', pipeline:true });
+      const url = safeUrl(item.url);
+      if (!url || seen.has(url)) return;
+      seen.add(url);
+      MEETINGS.unshift({ mo:_esc(item.mo||'\u2014'), dy:_esc(item.dy||'\u2014'), yr:_esc(item.yr||'2025'),
+        type:_esc(item.type||'Agenda'), title:_esc(item.title||'New Record'),
+        sum:_esc(item.sum||item.description||'New record from live feed.'),
+        topics:(Array.isArray(item.topics)?item.topics:['motion']).map(t=>_esc(t)), url:url, f:'New', pipeline:true });
       added++;
     });
     if (added > 0) {

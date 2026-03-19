@@ -20,12 +20,36 @@ const fL = { verified:'Verified', new:'New', updated:'Updated', archived:'Archiv
 // HIGHLIGHT / SAFE-ID
 // ═══════════════════════════════════════════════════════
 export function hl(t, q) {
-  if (!q || q.length < 2) return t;
+  // HTML-escape text first, then wrap matches in highlight spans
+  const s = String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  if (!q || q.length < 2) return s;
   const e = q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-  return String(t).replace(new RegExp('(' + e + ')','gi'),'<span class="hl">$1</span>');
+  return s.replace(new RegExp('(' + e + ')','gi'),'<span class="hl">$1</span>');
 }
 
 export function safeId(name) { return name.replace(/\W/g,'-'); }
+
+// URL validation — reject javascript: and data: protocols
+function safeHref(url) {
+  if (!url) return '';
+  try {
+    const u = new URL(url);
+    if (u.protocol === 'https:' || u.protocol === 'http:' || u.protocol === 'mailto:' || u.protocol === 'tel:') return url;
+    return '';
+  } catch { return ''; }
+}
+
+// Photo URLs — restrict to expected domains
+const ALLOWED_PHOTO_HOSTS = ['georgetownky.gov', 'www.georgetownky.gov', 'gscplanning.com', 'www.gscplanning.com', 'scottky.gov', 'www.scottky.gov'];
+function safePhotoUrl(url) {
+  if (!url) return '';
+  try {
+    const u = new URL(url);
+    if (u.protocol !== 'https:' && u.protocol !== 'http:') return '';
+    if (!ALLOWED_PHOTO_HOSTS.some(h => u.hostname === h || u.hostname.endsWith('.' + h))) return '';
+    return url;
+  } catch { return ''; }
+}
 
 // ═══════════════════════════════════════════════════════
 // PERSON CARD — photo with robust fallback
@@ -35,17 +59,18 @@ export function personCard(m, q, deptName) {
   const fresh = m.pipeline ? 'pipeline' : (m.f||'verified');
   const freshlabel = m.pipeline ? 'Live' : (fL[m.f]||m.f);
   const sid = safeId(m.name);
-  const deptSafe = (deptName||'').replace(/\\/g,'\\').replace(/'/g,"'");
-  const nameSafe = m.name.replace(/\\/g,'\\').replace(/'/g,"'");
+  const deptSafe = (deptName||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  const nameSafe = m.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
   const clickAttr = `onclick="openDrawer('${sid}','${deptSafe}','${nameSafe}')"
     onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openDrawer('${sid}','${deptSafe}','${nameSafe}')}"`;
 
   // Build photo/avatar - show avatar by default, swap to photo if it loads
   let mediaEl;
-  if (m.photo) {
+  const photoUrl = safePhotoUrl(m.photo);
+  if (photoUrl) {
     mediaEl = `<div class="pcard-media-wrap">
       <div class="pcard-avatar ${m.av}" id="av-${sid}">${m.ini}</div>
-      <img src="${m.photo}" class="pcard-photo" alt="${m.name}" loading="lazy"
+      <img src="${photoUrl}" class="pcard-photo" alt="${m.name}" loading="lazy"
         referrerpolicy="no-referrer"
         onload="this.style.display='block';document.getElementById('av-${sid}').style.display='none'"
         onerror="this.style.display='none'"
@@ -95,9 +120,10 @@ export function openDrawer(sid, deptName, memberName) {
 
   // Photo/avatar in hero
   const wrap = document.getElementById('drawerPhotoWrap');
-  if (m.photo) {
+  const drawerPhoto = safePhotoUrl(m.photo);
+  if (drawerPhoto) {
     const avHtml = `<div class="drawer-avatar ${m.av}" id="drawer-av">${m.ini}</div>`;
-    const imgHtml = `<img src="${m.photo}" class="drawer-photo" alt="${m.name}" loading="lazy" referrerpolicy="no-referrer"
+    const imgHtml = `<img src="${drawerPhoto}" class="drawer-photo" alt="${m.name}" loading="lazy" referrerpolicy="no-referrer"
       onload="this.style.display='block';document.getElementById('drawer-av').style.display='none'"
       onerror="this.style.display='none'" style="display:none">`;
     wrap.innerHTML = avHtml + imgHtml;
@@ -153,7 +179,7 @@ export function openDrawer(sid, deptName, memberName) {
           </div>
           ${hasDetail ? `<div class="devent-body">
             ${v.sig ? `<div class="devent-summary">${v.sig}</div>` : ''}
-            ${v.url ? `<a href="${v.url}" target="_blank" rel="noopener" class="devent-source" onclick="event.stopPropagation()">📄 View Source ↗</a>` : ''}
+            ${safeHref(v.url) ? `<a href="${safeHref(v.url)}" target="_blank" rel="noopener" class="devent-source" onclick="event.stopPropagation()">📄 View Source ↗</a>` : ''}
           </div>` : ''}
         </div>`;
       }).join('');
@@ -177,7 +203,7 @@ export function openDrawer(sid, deptName, memberName) {
     body += `<div class="dsec-inner"><div class="dsec-title"><span class="dsec-title-ico">📬</span>Contact</div><div class="drawer-contacts">${contactRows.join('')}</div></div>`;
   }
   if (m.socials && m.socials.length) {
-    const btns = m.socials.map(s => `<a href="${s.url}" target="_blank" rel="noopener" class="dsocial"><span>${s.icon==='f'?'𝗙':'🔗'}</span>${s.label}</a>`).join('');
+    const btns = m.socials.filter(s => safeHref(s.url)).map(s => `<a href="${safeHref(s.url)}" target="_blank" rel="noopener" class="dsocial"><span>${s.icon==='f'?'𝗙':'🔗'}</span>${s.label}</a>`).join('');
     body += `<div class="dsec-inner"><div class="dsec-title"><span class="dsec-title-ico">🔗</span>Social &amp; Online</div><div class="drawer-socials">${btns}</div></div>`;
   }
   if (m.events && m.events.length) {
@@ -191,7 +217,7 @@ export function openDrawer(sid, deptName, memberName) {
         </div>`;
       const bodyInner = hasDetail ? `<div class="devent-body">
           ${e.summary ? `<div class="devent-summary">${e.summary}</div>` : ''}
-          ${e.url    ? `<a href="${e.url}" target="_blank" rel="noopener" class="devent-source" onclick="event.stopPropagation()">📄 View Source ↗</a>` : ''}
+          ${safeHref(e.url) ? `<a href="${safeHref(e.url)}" target="_blank" rel="noopener" class="devent-source" onclick="event.stopPropagation()">📄 View Source ↗</a>` : ''}
         </div>` : '';
       const cls = hasDetail ? 'devent has-detail' : 'devent';
       const click = hasDetail ? `onclick="toggleEvent('${eid}')"` : '';
@@ -294,7 +320,7 @@ export function renderMeet(ids, q) {
     html += `<div class="ygrp"><div class="ylabel">${yr}</div><span class="ycnt${nc?' hasnew':''}">${ms.length} record${ms.length!==1?'s':''}${nc?' · '+nc+' new':''}</span></div><div class="mlist">${ms.map(m => {
       const tc = m.topics.map(t=>`<span class="mt mt-${t}">${t}</span>`).join('');
       const fr = m.pipeline ? 'Live' : (m.f||'');
-      return `<div class="mrow y${m.yr}${m.pipeline?' pipeline':''}"><div class="mdate"><div class="mmo">${m.mo}</div><div class="mday">${m.dy}</div><div class="myr">${m.yr}</div></div><div class="mbody"><div class="mtitle">${hl(m.title,q)}</div><div class="msum">${hl(m.sum,q)}</div><div class="mtopics">${tc}</div>${m.url&&m.url!=='#'?`<div class="mlinks"><a href="${m.url}" target="_blank" rel="noopener" class="mlink">Agenda / Minutes ↗</a></div>`:''}</div><div class="mrow-fresh ${fr}">${fr}</div></div>`;
+      return `<div class="mrow y${m.yr}${m.pipeline?' pipeline':''}"><div class="mdate"><div class="mmo">${m.mo}</div><div class="mday">${m.dy}</div><div class="myr">${m.yr}</div></div><div class="mbody"><div class="mtitle">${hl(m.title,q)}</div><div class="msum">${hl(m.sum,q)}</div><div class="mtopics">${tc}</div>${safeHref(m.url)&&m.url!=='#'?`<div class="mlinks"><a href="${safeHref(m.url)}" target="_blank" rel="noopener" class="mlink">Agenda / Minutes ↗</a></div>`:''}</div><div class="mrow-fresh ${fr}">${fr}</div></div>`;
     }).join('')}</div>`;
   });
   el.innerHTML = html;
@@ -485,7 +511,7 @@ export function subscribeAlerts() {
   const topics = [...alertTopics].join(',');
   const subj = encodeURIComponent('[Georgetown Records] Subscribe — ' + topics);
   const body = encodeURIComponent('Please add me to Georgetown Records meeting alerts.\n\nEmail: '+email+'\nTopics: '+topics+'\n\n---\nSent from Georgetown KY Public Records Index');
-  window.location.href = 'mailto:YOUR_EMAIL@example.com?subject=' + subj + '&body=' + body;
+  window.location.href = 'mailto:lucas@altanetworks.org?subject=' + subj + '&body=' + body;
   result.textContent = '✅ Opening your email client to confirm. You\'ll receive a confirmation once subscribed.';
   result.className = 'alert-result ok';
 }
@@ -508,7 +534,7 @@ export function submitFeedback() {
   const typeLabels = { correction:'Correction', tip:'Tip', suggestion:'Suggestion', question:'Question' };
   const body = encodeURIComponent('Type: '+(typeLabels[feedbackType]||feedbackType)+'\n'+(name?'From: '+name+'\n':'')+(email?'Reply-to: '+email+'\n':'')+'\n'+message+'\n\n---\nSent from Georgetown KY Public Records Index');
   const subj = encodeURIComponent('[Georgetown Records '+(typeLabels[feedbackType]||feedbackType)+'] '+subject);
-  window.location.href = 'mailto:YOUR_EMAIL@example.com?subject=' + subj + '&body=' + body;
+  window.location.href = 'mailto:lucas@altanetworks.org?subject=' + subj + '&body=' + body;
   result.textContent = '✅ Opening your email client — thanks for the contribution!';
   result.className = 'fb-result ok'; result.style.display = 'block';
 }
@@ -543,7 +569,7 @@ export function handleConnectivity() { const p=document.getElementById('offlineP
 // The archiver runs as a second cron job on the Worker (daily, not 30-min).
 // Cost: R2 storage ~$0.015/GB/month. 200 PDFs × ~500KB = ~100MB = ~$0.0015/mo.
 
-export const PDF_ARCHIVE_BASE = 'https://YOUR-WORKER.workers.dev/archive/';
+export const PDF_ARCHIVE_BASE = 'https://gtky-pipeline.altanetworks.workers.dev/archive/';
 // When a source URL matches georgetownky.gov and ends in .pdf or ViewFile,
 // the frontend checks the archived copy first as a fallback.
 
@@ -749,16 +775,16 @@ export function renderOrds() {
         ${o.title}
       </td>
       <td><span class="ord-type ${TYPE_CSS[o.type] || 'ot-other'}">${TYPE_LBL[o.type] || o.type}</span></td>
-      <td><a href="${o.url}" target="_blank" rel="noopener" class="ord-link"
-             onclick="event.stopPropagation()">View ↗</a></td>
+      <td>${safeHref(o.url) ? `<a href="${safeHref(o.url)}" target="_blank" rel="noopener" class="ord-link"
+             onclick="event.stopPropagation()">View ↗</a>` : ''}</td>
     </tr>
     <tr class="ord-detail-row" id="${rowId}" style="display:none">
       <td colspan="4" class="ord-detail-cell">
         <div class="ord-detail-body">
           <div class="ord-detail-summary">${o.summary}</div>
-          <a href="${o.url}" target="_blank" rel="noopener" class="ord-detail-link">
+          ${safeHref(o.url) ? `<a href="${safeHref(o.url)}" target="_blank" rel="noopener" class="ord-detail-link">
             📄 View Official Ordinance ${o.num} ↗
-          </a>
+          </a>` : ''}
         </div>
       </td>
     </tr>`;

@@ -11,6 +11,13 @@ import { scope, activeQ, setActiveQ, SCOPE_MAP, lidx, docMap, allDocs, setIndex,
          ordFilter, setOrdFilter, voteView, setVoteView,
          setScope as _setScope } from './state.js';
 
+// URL validation for photo/link attributes
+const ALLOWED_HOSTS = ['georgetownky.gov', 'www.georgetownky.gov', 'gscplanning.com', 'www.gscplanning.com', 'scottky.gov', 'www.scottky.gov'];
+function _safeUrl(u) {
+  if (!u) return '';
+  try { const p = new URL(u); if (p.protocol !== 'https:' && p.protocol !== 'http:') return ''; if (!ALLOWED_HOSTS.some(h => p.hostname === h || p.hostname.endsWith('.' + h))) return ''; return u; } catch { return ''; }
+}
+
 export function rebuildIndex() {
   try {
 
@@ -242,11 +249,12 @@ export function onSearch(q) {
       }
       if (!member) return;
       const sid   = window.safeId(member.name);
-      const safe  = member.name.replace(/\\/g,'\\').replace(/'/g,"'");
-      const dsafe = deptName.replace(/\\/g,'\\').replace(/'/g,"'");
-      const avatarEl = member.photo
+      const safe  = member.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      const dsafe = deptName.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      const _photoUrl = _safeUrl(member.photo);
+      const avatarEl = _photoUrl
         ? `<div class="sr-person-avatar ${member.av||''}" id="srav-${sid}">${member.ini||''}</div>
-           <img src="${member.photo}" alt="${member.name}" loading="lazy" referrerpolicy="no-referrer"
+           <img src="${_photoUrl}" alt="${member.name}" loading="lazy" referrerpolicy="no-referrer"
              style="display:none;width:32px;height:32px;border-radius:50%;object-fit:cover;object-position:top;flex-shrink:0"
              onload="this.style.display='block';document.getElementById('srav-${sid}').style.display='none'"
              onerror="this.style.display='none'">`
@@ -320,8 +328,8 @@ export function onSearch(q) {
           </div>
           <div class="sr-ord-title">${window.hl(o.title, activeQ)}</div>
           ${o.summary ? `<div class="sr-ord-sum">${window.hl(o.summary.slice(0,130), activeQ)}${o.summary.length>130?'\u2026':''}</div>` : ''}
-          <a href="${o.url}" target="_blank" rel="noopener" class="sr-ord-link"
-             onclick="event.stopPropagation()">View Ord. ${o.num} \u2197</a>
+          ${_safeUrl(o.url) ? `<a href="${_safeUrl(o.url)}" target="_blank" rel="noopener" class="sr-ord-link"
+             onclick="event.stopPropagation()">View Ord. ${o.num} \u2197</a>` : ''}
         </div>`;
     });
     if (byType.ordinance.length > 6) out += `<div class="sr-more">+${byType.ordinance.length - 6} more \u2014 open Ordinances panel</div>`;
