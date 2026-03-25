@@ -39,14 +39,15 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    const CORS = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Max-Age': '86400',
+    };
+
     if (request.method === 'OPTIONS') {
-      return new Response(null, {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, OPTIONS',
-          'Access-Control-Max-Age': '86400',
-        }
-      });
+      return new Response(null, { headers: CORS });
     }
 
     if (url.pathname === '/records') {
@@ -58,6 +59,74 @@ export default {
           'Cache-Control': 'public,max-age=900',
         }
       });
+    }
+
+    // ── Fact-check proxy — keeps ANTHROPIC_KEY server-side ──────────────
+    if (url.pathname === '/factcheck' && request.method === 'POST') {
+      if (!env.ANTHROPIC_KEY) {
+        return new Response(JSON.stringify({ error: 'ANTHROPIC_KEY not configured' }), {
+          status: 503, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        });
+      }
+      try {
+        const { statement, context } = await request.json();
+        if (!statement || typeof statement !== 'string' || statement.length > 2000) {
+          return new Response(JSON.stringify({ error: 'Invalid statement' }), {
+            status: 400, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+          });
+        }
+        const systemPrompt = `You are a fact-checking agent for Georgetown, Kentucky public records.
+
+## VERIFICATION ALGORITHM — follow these steps in order:
+
+STEP 1 — DATASET CHECK: Search the PROVIDED DATASET below for evidence. The dataset contains verified city records, council votes, meeting minutes, ordinances, and official staff data. If the claim is directly stated or clearly implied by the dataset, verdict is "Supported" with "High" confidence and source_tier is "dataset".
+
+STEP 2 — GENERAL KNOWLEDGE: If the dataset does not contain enough information, use your general knowledge about Georgetown KY, Kentucky government, Toyota TMMK, and public affairs. If supported by general knowledge alone, confidence is "Medium" and source_tier is "external".
+
+STEP 3 — CROSS-REFERENCE: If both dataset AND general knowledge support the claim, confidence is "High" and source_tier is "dataset+external". If they partially agree, source_tier is "mixed".
+
+STEP 4 — VERDICT: Only use "Insufficient Data" if NEITHER the dataset NOR your knowledge contains relevant information. A simple factual claim like "The mayor's last name is Jenkins" that appears in the dataset is "Supported" / "High" / "dataset" — not "Insufficient Data".
+
+## CONFIDENCE SCORING:
+- High: Claim directly matches dataset records, or is well-established public fact
+- Medium: Claim is consistent with dataset but not explicitly stated, OR supported only by external knowledge
+- Low: Weak or indirect evidence only
+
+## RESPONSE FORMAT — return ONLY raw JSON, no markdown:
+{"verdict":"Supported"|"Partially Supported"|"Unsupported"|"Insufficient Data","confidence":"High"|"Medium"|"Low","summary":"2-3 sentences explaining your reasoning","evidence":["specific facts from dataset or knowledge that support/refute"],"discrepancies":["any errors in the claim — wrong names, dates, numbers"],"sources":["which records you checked: e.g. 'Dataset: Officials list', 'Dataset: Vote record Nov 24 2025', 'General knowledge: Toyota TMMK'],"source_tier":"dataset"|"dataset+external"|"external"|"mixed"|"unknown"}
+
+## PROVIDED DATASET:
+${(context || '').slice(0, 12000)}`;
+
+        const apiRes = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'x-api-key': env.ANTHROPIC_KEY,
+            'anthropic-version': '2023-06-01',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'claude-haiku-4-5-20251001',
+            max_tokens: 1024,
+            system: systemPrompt,
+            messages: [{ role: 'user', content: `Fact-check this statement: "${statement}"` }]
+          })
+        });
+        const data = await apiRes.json();
+        // Parse the model's text response into clean JSON for the client
+        let raw = (data.content || []).map(c => c.text || '').join('').trim();
+        raw = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '').trim();
+        let parsed;
+        try { parsed = JSON.parse(raw); }
+        catch { parsed = { verdict: 'Insufficient Data', confidence: 'Low', summary: raw.slice(0, 500), evidence: [], discrepancies: [], sources: [], source_tier: 'unknown' }; }
+        return new Response(JSON.stringify(parsed), {
+          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        });
+      } catch(e) {
+        return new Response(JSON.stringify({ error: e.message }), {
+          status: 500, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        });
+      }
     }
 
     return new Response('Not found', { status: 404 });
