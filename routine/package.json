@@ -1,0 +1,16 @@
+{
+  "name": "gtky-routine",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Claude Routine — polls all Georgetown KY public record sources and reports new items",
+  "scripts": {
+    "poll":       "node poll.js",
+    "poll:apply": "node poll.js --apply"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
