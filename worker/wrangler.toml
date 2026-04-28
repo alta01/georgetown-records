@@ -3,7 +3,9 @@ main = "src/worker.js"
 compatibility_date = "2024-01-01"
 
 [triggers]
-crons = ["*/30 * * * *"]
+crons = ["*/30 * * * *", "0 6 * * *"]
+# */30 * * * *  → RSS feeds (city committees) every 30 minutes
+# 0 6 * * *     → GMWSS board scrape + water rate check daily at 6am ET
 
 [[kv_namespaces]]
 binding = "KV"
