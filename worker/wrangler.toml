@@ -3,8 +3,8 @@ main = "src/worker.js"
 compatibility_date = "2024-01-01"
 
 [triggers]
-# */30 * * * *  → RSS feeds every 30 minutes
-# 0 10 * * *    → GMWSS board scrape + water rate check daily at 10:00 UTC (~6am ET)
+# */30 * * * *  → RSS feeds (city committees) every 30 minutes
+# 0 10 * * *    → GMWSS board scrape + water rate check + planning commission daily at 10:00 UTC (~6am ET)
 crons = ["*/30 * * * *", "0 10 * * *"]
 
 [[kv_namespaces]]

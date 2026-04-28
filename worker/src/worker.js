@@ -18,12 +18,12 @@ const PLANNING_URL    = 'https://www.gscplanning.com/meetingrecords';
 // Approved rate schedule from the 2022 Rate Study (Scenario 5.1B).
 // Source: georgetownky.gov/DocumentCenter/View/1794/
 const APPROVED_SCHEDULE = {
-  'Mar-2023': { waterFixed: 15.78, sewerFixed: 14.53 },
-  'Mar-2024': { waterFixed: 18.47, sewerFixed: 17.00 },
-  'Mar-2025': { waterFixed: 21.61, sewerFixed: 19.89 },
-  'Mar-2026': { waterFixed: 22.90, sewerFixed: 21.09 },
-  'Mar-2027': { waterFixed: 24.28, sewerFixed: 22.35 },
-  'Mar-2028': { waterFixed: 25.73, sewerFixed: 23.69 },
+  'Mar-2023': { waterFixed: 15.78, sewerFixed: 14.53, combined: 30.31 },
+  'Mar-2024': { waterFixed: 18.47, sewerFixed: 17.00, combined: 35.47 },
+  'Mar-2025': { waterFixed: 21.61, sewerFixed: 19.89, combined: 41.50 },
+  'Mar-2026': { waterFixed: 22.90, sewerFixed: 21.09, combined: 43.99 },
+  'Mar-2027': { waterFixed: 24.28, sewerFixed: 22.35, combined: 46.63 },
+  'Mar-2028': { waterFixed: 25.73, sewerFixed: 23.69, combined: 49.42 },
 };
 
 export default {
@@ -92,16 +92,14 @@ export default {
     if (url.pathname === '/factcheck' && request.method === 'POST') {
       if (!env.ANTHROPIC_KEY) {
         return new Response(JSON.stringify({ error: 'ANTHROPIC_KEY not configured' }), {
-          status: 503,
-          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+          status: 503, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
         });
       }
       try {
         const { statement, context } = await request.json();
         if (!statement || typeof statement !== 'string' || statement.length > 2000) {
           return new Response(JSON.stringify({ error: 'Invalid statement' }), {
-            status: 400,
-            headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+            status: 400, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
           });
         }
         const systemPrompt = `You are a fact-checking agent for Georgetown, Kentucky public records.
@@ -130,35 +128,29 @@ ${(context || '').slice(0, 12000)}`;
         const apiRes = await fetch('https://api.anthropic.com/v1/messages', {
           method: 'POST',
           headers: {
-            'x-api-key':          env.ANTHROPIC_KEY,
-            'anthropic-version':  '2023-06-01',
-            'Content-Type':       'application/json',
+            'x-api-key': env.ANTHROPIC_KEY,
+            'anthropic-version': '2023-06-01',
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            model:      'claude-haiku-4-5-20251001',
+            model: 'claude-haiku-4-5-20251001',
             max_tokens: 1024,
-            system:     systemPrompt,
-            messages:   [{ role: 'user', content: `Fact-check this statement: "${statement}"` }],
-          }),
+            system: systemPrompt,
+            messages: [{ role: 'user', content: `Fact-check this statement: "${statement}"` }]
+          })
         });
         const data = await apiRes.json();
         let raw = (data.content || []).map(c => c.text || '').join('').trim();
         raw = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '').trim();
         let parsed;
         try { parsed = JSON.parse(raw); }
-        catch {
-          parsed = {
-            verdict: 'Insufficient Data', confidence: 'Low',
-            summary: raw.slice(0, 500), evidence: [], discrepancies: [], sources: [], source_tier: 'unknown',
-          };
-        }
+        catch { parsed = { verdict: 'Insufficient Data', confidence: 'Low', summary: raw.slice(0, 500), evidence: [], discrepancies: [], sources: [], source_tier: 'unknown' }; }
         return new Response(JSON.stringify(parsed), {
-          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
         });
       } catch(e) {
         return new Response(JSON.stringify({ error: e.message }), {
-          status: 500,
-          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+          status: 500, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
         });
       }
     }
@@ -183,6 +175,17 @@ async function updateKVRecords(updatedItems, env) {
   await env.KV.put('records', JSON.stringify([...map.values()].slice(0, 500)));
 }
 
+// ── Status writer ─────────────────────────────────────────────────────────────
+// Merges a single key into the poll-status KV object so each poller updates
+// its own slice without overwriting the others.
+
+async function writeStatus(env, tsKey, value, countKey) {
+  try {
+    const prev   = JSON.parse((await env.KV.get('poll-status')) || '{}');
+    await env.KV.put('poll-status', JSON.stringify({ ...prev, [tsKey]: new Date().toISOString(), [countKey]: value }), { expirationTtl: 604800 });
+  } catch(e) { console.error('[status]', e.message); }
+}
+
 // ── RSS Parser ────────────────────────────────────────────────────────────────
 
 const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
@@ -196,8 +199,7 @@ function parseRSS(xml, category) {
       return m ? m[1].trim() : '';
     };
     const pubDate = new Date(get('pubDate'));
-    const valid   = pubDate instanceof Date && !isNaN(pubDate);
-    if (!valid) continue; // guardrail: skip items with unparseable dates
+    if (isNaN(pubDate)) continue; // guardrail: skip items with unparseable dates
     items.push({
       guid:     get('guid') || get('link'),
       title:    get('title'),
@@ -222,6 +224,8 @@ function inferTopics(cat) {
     Police:         ['police'],
     'Public Works': ['pw'],
     Traffic:        ['pw'],
+    Interlocal:     ['motion', 'interlocal'],
+    Miscellaneous:  ['motion'],
     GMWSS:          ['water', 'gmwss', 'utility'],
     Planning:       ['planning', 'zoning'],
   })[cat] || ['motion'];
@@ -245,19 +249,19 @@ async function pollCityFeeds(env) {
       }
     } catch(e) { console.error('[rss]', feed.cat, e.message); }
   }
-
   if (newItems.length > 0) {
     const prev   = await getKVRecords(env);
     const merged = [...newItems, ...prev].slice(0, 500);
     await env.KV.put('records', JSON.stringify(merged));
     if (env.ANTHROPIC_KEY) await processNewItems(newItems, env);
   }
-
   await writeStatus(env, 'lastRssRun', newItems.length, 'rssNew');
   console.log('[rss] done — new:', newItems.length);
 }
 
 // ── 2. GMWSS board minutes (daily) ───────────────────────────────────────────
+// gmwss.com/board.htm lists PDFs like /board/minutes/YYYY/M-DD-YYYY.pdf
+// No RSS — parse HTML and extract anchor hrefs ending in .pdf
 
 async function pollGMWSS(env) {
   const newItems = [];
@@ -266,7 +270,6 @@ async function pollGMWSS(env) {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const html = await res.text();
 
-    // Board minutes live at paths like: /board/minutes/2025/2-18-2025.pdf
     const pdfPattern = /href="([^"]*board\/minutes\/[^"]+\.pdf)"/gi;
     let match;
     while ((match = pdfPattern.exec(html)) !== null) {
@@ -284,14 +287,15 @@ async function pollGMWSS(env) {
       const dateMatch = path.match(/(\d{1,2})-(\d{1,2})-(\d{4})\.pdf$/);
       if (!dateMatch) continue; // guardrail: skip unparseable filenames
       const d  = new Date(parseInt(dateMatch[3]), parseInt(dateMatch[1]) - 1, parseInt(dateMatch[2]));
+      if (isNaN(d)) continue;
+
       const mo = MONTHS[d.getMonth()];
       const dy = String(d.getDate()).padStart(2, '0');
       const yr = String(d.getFullYear());
-
       newItems.push({
         guid:      fullUrl,
-        title:     `GMWSS Board of Commissioners — ${mo} ${dy}, ${yr}`,
-        sum:       'Monthly meeting of the Georgetown Municipal Water & Sewer Service Board of Commissioners. Source: gmwss.com/board.htm',
+        title:     `GMWSS Board of Commissioners Meeting — ${mo} ${dy}, ${yr}`,
+        sum:       'Monthly meeting of the Georgetown Municipal Water & Sewer Service Board of Commissioners. Board approves rates, capital projects, and operational decisions. Source: gmwss.com/board.htm',
         url:       fullUrl,
         mo, dy, yr,
         type:      'Minutes',
@@ -304,12 +308,19 @@ async function pollGMWSS(env) {
     }
   } catch(e) { console.error('[gmwss] board scrape failed:', e.message); }
 
-  if (newItems.length > 0) await updateKVRecords(newItems, env);
+  if (newItems.length > 0) {
+    await updateKVRecords(newItems, env);
+    console.log('[gmwss] added', newItems.length, 'new meeting records');
+    if (env.ANTHROPIC_KEY) await processNewItems(newItems, env);
+  }
   await writeStatus(env, 'lastGmwssRun', newItems.length, 'gmwssNew');
   console.log('[gmwss] done — new:', newItems.length);
 }
 
 // ── 3. Water rate change detector (daily) ────────────────────────────────────
+// Scrapes gmwss.com/rates.htm, compares to last stored snapshot, and
+// indexes a rate-change record if the fixed rate has changed.
+// Rates change March 1 each year per the 2023 rate ordinance schedule.
 
 async function checkWaterRates(env) {
   try {
@@ -317,41 +328,36 @@ async function checkWaterRates(env) {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const html = await res.text();
 
-    // Extract the fixed rate for the first 2,000 gallons.
-    // Pattern seen on gmwss.com/rates.htm: "First 2,000 Gallons ... $XX.XX"
-    const waterMatch = html.match(/First\s+2,000\s+Gallons[\s\S]{0,60}\$(\d+\.\d{2})/i);
-    if (!waterMatch) {
+    // Extract fixed rate for first 2,000 gallons/month
+    const waterFixed    = html.match(/First\s+2,000\s+Gallons[\s\S]{0,60}\$(\d+\.\d{2})/i)?.[1];
+    const effectiveDate = html.match(/Effective\s+([\w\s,]+\d{4})/i)?.[1]?.trim();
+
+    if (!waterFixed) {
       console.warn('[water] Could not parse fixed rate from gmwss.com/rates.htm');
       return;
     }
-    const waterFixed      = parseFloat(waterMatch[1]);
-    const effectiveMatch  = html.match(/Effective\s+([\w\s,]+\d{4})/i);
-    const effectiveDate   = effectiveMatch?.[1]?.trim() || null;
 
     const snapshot = {
-      waterFixed,
-      effectiveDate,
+      waterFixed:       parseFloat(waterFixed),
+      effectiveDate:    effectiveDate || null,
       approvedSchedule: APPROVED_SCHEDULE,
-      fetchedAt: new Date().toISOString(),
+      fetchedAt:        new Date().toISOString(),
     };
 
-    // Load previous snapshot to detect changes.
-    let prevSnap = null;
-    try {
-      const raw = await env.KV.get('water-rates');
-      if (raw) prevSnap = JSON.parse(raw);
-    } catch { /* first run */ }
+    const prevRaw  = await env.KV.get('water-rates');
+    const prevSnap = prevRaw ? JSON.parse(prevRaw) : null;
 
-    if (prevSnap && prevSnap.waterFixed !== waterFixed) {
-      console.log(`[water] RATE CHANGED $${prevSnap.waterFixed} → $${waterFixed} (${effectiveDate})`);
+    if (prevSnap && prevSnap.waterFixed !== snapshot.waterFixed) {
+      console.log(`[water] RATE CHANGED $${prevSnap.waterFixed} → $${snapshot.waterFixed} (${effectiveDate})`);
+      const now = new Date();
       const changeItem = {
         guid:      'water-rate-change-' + Date.now(),
-        title:     `GMWSS Water Rate Change — ${effectiveDate || new Date().getFullYear()}`,
-        sum:       `Water fixed rate changed from $${prevSnap.waterFixed} to $${waterFixed}/mo (first 2,000 gal). Source: gmwss.com/rates.htm`,
+        title:     `GMWSS Water Rate Change — ${snapshot.effectiveDate || 'March ' + now.getFullYear()}`,
+        sum:       `Water fixed rate changed from $${prevSnap.waterFixed} to $${snapshot.waterFixed}/mo (first 2,000 gal). Source: gmwss.com/rates.htm`,
         url:       'https://gmwss.com/rates.htm',
-        mo:        MONTHS[new Date().getMonth()],
-        dy:        String(new Date().getDate()).padStart(2, '0'),
-        yr:        String(new Date().getFullYear()),
+        mo:        MONTHS[now.getMonth()],
+        dy:        String(now.getDate()).padStart(2, '0'),
+        yr:        String(now.getFullYear()),
         type:      'Rate Change',
         topics:    ['water', 'gmwss', 'rates', 'utility'],
         category:  'GMWSS',
@@ -363,8 +369,8 @@ async function checkWaterRates(env) {
     }
 
     await env.KV.put('water-rates', JSON.stringify(snapshot));
-    await writeStatus(env, 'lastWaterCheck', waterFixed, 'currentWaterRate');
-    console.log('[water] done — fixed rate:', waterFixed);
+    await writeStatus(env, 'lastWaterCheck', snapshot.waterFixed, 'currentWaterRate');
+    console.log('[water] done — fixed rate:', snapshot.waterFixed);
   } catch(e) { console.error('[water] check failed:', e.message); }
 }
 
@@ -378,21 +384,17 @@ async function pollPlanning(env) {
     const html = await res.text();
 
     // Extract PDF/document links from the planning commission meeting records page.
-    // Pattern: hrefs ending in .pdf or containing "minutes" from gscplanning.com
     const linkPattern = /href="(https?:\/\/(?:www\.)?gscplanning\.com\/[^"]+(?:\.pdf|minutes[^"]*))"[^>]*>([^<]{5,80})/gi;
     let match;
     while ((match = linkPattern.exec(html)) !== null) {
-      const fullUrl = match[1];
+      const fullUrl  = match[1];
       const linkText = match[2].trim();
-
-      // Guardrail: only accept gscplanning.com URLs
       if (!fullUrl.includes('gscplanning.com')) continue;
 
       const key = 'plan-seen:' + fullUrl;
       if (await env.KV.get(key)) continue;
       await env.KV.put(key, '1', { expirationTtl: 31536000 });
 
-      // Try to parse a date from the link text (e.g. "January 14, 2025 Minutes")
       const d     = new Date(linkText);
       const valid = d instanceof Date && !isNaN(d) && d.getFullYear() > 2000;
       newItems.push({
@@ -400,9 +402,9 @@ async function pollPlanning(env) {
         title:     linkText || 'Planning Commission Meeting',
         sum:       'Georgetown-Scott County Planning Commission meeting record. Source: gscplanning.com',
         url:       fullUrl,
-        mo:        valid ? MONTHS[d.getMonth()] : MONTHS[new Date().getMonth()],
-        dy:        valid ? String(d.getDate()).padStart(2, '0') : String(new Date().getDate()).padStart(2, '0'),
-        yr:        valid ? String(d.getFullYear()) : String(new Date().getFullYear()),
+        mo:        valid ? MONTHS[d.getMonth()]              : MONTHS[new Date().getMonth()],
+        dy:        valid ? String(d.getDate()).padStart(2,'0') : String(new Date().getDate()).padStart(2,'0'),
+        yr:        valid ? String(d.getFullYear())            : String(new Date().getFullYear()),
         type:      'Minutes',
         topics:    ['planning', 'zoning'],
         category:  'Planning Commission',
@@ -418,18 +420,6 @@ async function pollPlanning(env) {
   console.log('[planning] done — new:', newItems.length);
 }
 
-// ── Status writer ─────────────────────────────────────────────────────────────
-// Merges a single key into the poll-status KV object so each poller updates
-// its own slice without overwriting the others.
-
-async function writeStatus(env, tsKey, value, countKey) {
-  try {
-    const prev   = JSON.parse((await env.KV.get('poll-status')) || '{}');
-    const update = { ...prev, [tsKey]: new Date().toISOString(), [countKey]: value };
-    await env.KV.put('poll-status', JSON.stringify(update), { expirationTtl: 604800 }); // 7 days
-  } catch(e) { console.error('[status]', e.message); }
-}
-
 // ── AI Processing: PDF summarization + enrichment ────────────────────────────
 
 async function processNewItems(items, env) {
@@ -442,27 +432,28 @@ async function processNewItems(items, env) {
       const response = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: {
-          'x-api-key':         env.ANTHROPIC_KEY,
+          'x-api-key': env.ANTHROPIC_KEY,
           'anthropic-version': '2023-06-01',
-          'Content-Type':      'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model:      'claude-haiku-4-5-20251001',
+          model: 'claude-haiku-4-5-20251001',
           max_tokens: 600,
           system: isGMWSS
-            ? `Summarize this GMWSS board meeting in JSON. Only include facts stated in the document.
+            ? `Summarize this Georgetown Municipal Water & Sewer Service (GMWSS) board meeting in JSON.
+Only include facts stated in the document. Do not infer or extrapolate.
 {"summary":"2-3 sentence overview","topics":["water","rates","capital"],"decisions":[{"text":"...","result":"approved|tabled|discussed"}],"amounts":["$X for Y"],"rateChanges":["any rate changes mentioned"]}
 Return raw JSON only.`
             : `Summarize this Georgetown KY city council meeting in JSON:
 {"summary":"2-3 sentence overview","topics":["motion","finance"],"motions":[{"text":"...","result":"..."}],"amounts":["$X for Y"]}
 Return raw JSON only.`,
-          messages: [{ role: 'user', content: pdfText.slice(0, 8000) }],
-        }),
+          messages: [{ role: 'user', content: pdfText.slice(0, 8000) }]
+        })
       });
       const data   = await response.json();
       const parsed = JSON.parse((data.content[0]?.text || '{}').replace(/```json|```/g, '').trim());
-      item.sum          = parsed.summary    || item.sum;
-      item.topics       = parsed.topics     || item.topics;
+      item.sum          = parsed.summary || item.sum;
+      item.topics       = parsed.topics  || item.topics;
       item.aiSummarized = true;
       if (parsed.rateChanges?.length) item.rateChanges = parsed.rateChanges;
     } catch(e) { console.error('[summarizer]', e.message); }
