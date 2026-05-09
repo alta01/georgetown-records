@@ -2,6 +2,7 @@ export const ORDINANCES = [
   // Each entry: { num, year, title, type, url, summary }
   // summary: 1-2 sentence plain-English description for residents
   // url: direct link to PDF when available, otherwise ordinance index
+  // TODO: check georgetownky.gov/DocumentCenter for recent adoptions — newest entry (26-01) is >3 months old as of May 2026
   { num:'26-01', year:2026, title:'Zone Change — 1696 Oxford Drive', type:'zone',
     url:'https://www.georgetownky.gov/2147/Code-of-Ordinances',
     summary:"Rezones a property at 1696 Oxford Drive — the first ordinance passed by Georgetown City Council in 2026. Details of the new zoning classification and permitted uses are in the official document." },
