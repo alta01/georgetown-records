@@ -1,3 +1,4 @@
+// TODO: check georgetownky.gov/DocumentCenter for recent adoptions — last entry is Jan 2026 (Ord. 26-01), ~4 months stale as of May 2026
 export const ORDINANCES = [
   // Each entry: { num, year, title, type, url, summary }
   // summary: 1-2 sentence plain-English description for residents
