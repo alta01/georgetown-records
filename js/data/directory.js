@@ -109,7 +109,8 @@ export const DEPTS = [
       },
       { name:'Kim Menke', ini:'KM', av:'av-g', title:'City Councilmember', tags:['t-council'],
         ph:'502-503-3740', f:'new', photo:IMG(3154), email:'kmenke@georgetownky.gov',
-        notes:'New term Jan 2025. Seconded board appointment transparency motion.',
+        needsVerification: true,  // filed for Mayor — primary May 19 2026; role may change after election
+        notes:'New term Jan 2025. Seconded board appointment transparency motion. Filed for Mayor Jan 2026.',
         bio:'Kim Menke was elected to the Georgetown City Council and took her oath of office on January 27, 2025. She quickly established herself as active on governance matters, seconding Greg Hampton\'s landmark motion requiring resumes for all board appointments, and taking a lead role in GMWSS commissioner appointments.',
         positionSummary:'At-large City Councilmember (new term Jan 2025). Adopts the annual budget, levies taxes and fees, enacts local ordinances, and appoints members to boards and commissions.',
         socials:[], events:[

@@ -1,8 +1,10 @@
 export const ELECTION_2026 = {
   primary: new Date('2026-05-19T00:00:00'),
   general: new Date('2026-11-03T00:00:00'),
-  registerPrimary: new Date('2026-04-20T00:00:00'),
+  registerPrimary: new Date('2026-04-20T00:00:00'),  // deadline passed Apr 20 2026
   registerGeneral: new Date('2026-10-05T00:00:00'),
+  // TODO: Add primary outcome fields after May 19 2026 — verify results with Scott County Clerk (scottcountyclerk.ky.gov / 502-863-7875)
+  // Fields to add: primaryWinners (Mayor top-2, Council top-8), primaryResults (vote counts per candidate)
 };
 
 // Map region info — what offices appear on the ballot in each area

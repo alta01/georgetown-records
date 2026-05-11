@@ -190,4 +190,25 @@ export const VOTES = [
     note:'Different council composition',
     sig:'Declared a state of local emergency in response to the COVID-19 pandemic — one of the most consequential votes in Georgetown\'s recent history. This declaration activated emergency powers, allowed the city to expedite procurement of supplies and services, and enabled operational changes across all departments including police, fire, dispatch, and parks. It established the legal framework for all subsequent pandemic-related city actions.',
     votes:{Brent:'Y',Crisp:'X',Hambrick:'Y',Hampton:'Y',Menke:'X',LusbyMitchell:'Y',TingleSames:'Y',Stone:'Y'} },
+
+  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Dec 8 2025 minutes
+  { id:'v030', date:'Dec 8 2025', yr:'2025', confidence:'pending',
+    motion:'Bluegrass Recovery Initiative — Council Pledge $5,000',
+    mover:'', seconder:'', result:'Approved', topic:'finance', type:'grant',
+    sig:'Council pledged $5,000 to the Bluegrass Recovery Initiative for mental health and substance use support services — final regular meeting of 2025. Additional Dec 8 votes (Jeff Klocke GMWSS reappointment resolution, 9-1-1 fee items) pending extraction from official minutes.',
+    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
+
+  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Jan 12 2026 minutes
+  { id:'v031', date:'Jan 12 2026', yr:'2026', confidence:'pending',
+    motion:'Ordinance 26-01 — Zone Change, 1696 Oxford Drive',
+    mover:'', seconder:'', result:'Passed', topic:'pw', type:'ordinance',
+    sig:'First ordinance of 2026 — rezoned property at 1696 Oxford Drive. First regular meeting of the year included organizational items for the new term. Full vote record for Jan 12 2026 pending verification from official minutes.',
+    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
+
+  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Mar 9 2026 minutes
+  { id:'v032', date:'Mar 9 2026', yr:'2026', confidence:'pending',
+    motion:'Mar 9 2026 Regular Meeting — Full Vote Record Pending',
+    mover:'', seconder:'', result:'', topic:'motion', type:'procedural',
+    sig:'First 2026 regular meeting following the March 1 GMWSS rate increase ($22.90 water + $21.09 sewer, combined $43.99 — +70% vs 2022 baseline). GMWSS under public scrutiny: FOX 56 reported resident billing complaints, 15,404 active customers, 91 leak checks (36 showed flow). Full vote record pending verification from official minutes.',
+    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
 ];
