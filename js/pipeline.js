@@ -26,16 +26,16 @@ export async function loadPipeline() {
   };
   try {
     _LOG.info('pipeline', 'Fetching', {url: R2_URL});
-    setStatus('', 'Checking for new records\u2026');
+    setStatus('', 'Checking for new records…');
     const r = await fetch(R2_URL, { signal: AbortSignal.timeout(4000), cache: 'no-store' });
     if (!r.ok) {
       _LOG.warn('pipeline', 'Non-OK response', {status: r.status});
-      setStatus('offline', 'Live feed unavailable \u2014 showing all archived records');
+      setStatus('offline', 'Live feed unavailable — showing all archived records');
       return;
     }
     const items = await r.json();
     if (!Array.isArray(items) || !items.length) {
-      setStatus('live', 'Feed active \u00b7 No new records');
+      setStatus('live', 'Feed active · No new records');
       return;
     }
     const seen = new Set(MEETINGS.map(m => m.url));
@@ -44,7 +44,7 @@ export async function loadPipeline() {
       const url = safeUrl(item.url);
       if (!url || seen.has(url)) return;
       seen.add(url);
-      MEETINGS.unshift({ mo:_esc(item.mo||'\u2014'), dy:_esc(item.dy||'\u2014'), yr:_esc(item.yr||'2025'),
+      MEETINGS.unshift({ mo:_esc(item.mo||'—'), dy:_esc(item.dy||'—'), yr:_esc(item.yr||'2025'),
         type:_esc(item.type||'Agenda'), title:_esc(item.title||'New Record'),
         sum:_esc(item.sum||item.description||'New record from live feed.'),
         topics:(Array.isArray(item.topics)?item.topics:['motion']).map(t=>_esc(t)), url:url, f:'New', pipeline:true });
@@ -73,23 +73,23 @@ export async function loadPipeline() {
           `<div class="mrow pipeline" style="margin-bottom:6px">
             <div class="mdate"><div class="mmo">${m.mo}</div><div class="mday">${m.dy}</div><div class="myr">${m.yr}</div></div>
             <div class="mbody"><div class="mtitle">${m.title}</div>
-              <div class="msum">${(m.sum||'').slice(0,100)}${(m.sum||'').length>100?'\u2026':''}</div>
-              ${m.url?`<a href="${m.url}" target="_blank" rel="noopener" class="mlink" style="margin-top:4px;display:inline-block">View official record \u2197</a>`:''}</div>
+              <div class="msum">${(m.sum||'').slice(0,100)}${(m.sum||'').length>100?'…':''}</div>
+              ${m.url?`<a href="${m.url}" target="_blank" rel="noopener" class="mlink" style="margin-top:4px;display:inline-block">View official record ↗</a>`:''}</div>
           </div>`).join('');
         nrDiv.style.display = '';
       }
       window.showToast(added + ' new record' + (added>1?'s':'') + ' loaded');
-      setStatus('live', added + ' new record' + (added>1?'s':'') + ' \u00b7 Feed active');
+      setStatus('live', added + ' new record' + (added>1?'s':'') + ' · Feed active');
       _LOG.info('pipeline', 'Loaded OK', {added});
     } else {
-      setStatus('live', 'Feed active \u00b7 Up to date');
+      setStatus('live', 'Feed active · Up to date');
     }
   } catch(_e) {
     _LOG.warn('pipeline', _e.message, {url: R2_URL});
     const dot  = document.getElementById('pipeStatusDot');
     const text = document.getElementById('pipeStatusText');
     if (dot)  dot.className = 'pipe-status-dot offline';
-    if (text) text.textContent = 'Live feed offline \u2014 all archived records available';
+    if (text) text.textContent = 'Live feed offline — all archived records available';
   }
 
 
@@ -108,4 +108,21 @@ export async function loadPipeline() {
   } catch(_e2) {
     _LOG.warn('pipeline', 'GMWSS water check failed', {msg: _e2.message});
   }
+
+  // ── Update "Updated" pill with latest worker run timestamp ───────────────
+  try {
+    const statusUrl = R2_URL.replace('/records', '/status');
+    const sr = await fetch(statusUrl, { signal: AbortSignal.timeout(3000), cache: 'no-store' });
+    if (sr.ok) {
+      const st = await sr.json();
+      const latest = ['lastRssRun', 'lastGmwssRun', 'lastWaterCheck', 'lastPlanningRun']
+        .map(k => st[k]).filter(Boolean).sort().pop();
+      if (latest) {
+        const d = new Date(latest);
+        const label = d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        const pill = document.getElementById('livePillDate');
+        if (pill) pill.textContent = 'Updated ' + label;
+      }
+    }
+  } catch(_e3) { /* non-critical */ }
 }
