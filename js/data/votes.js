@@ -11,7 +11,30 @@ export const MEMBERS_FULL = {
 };
 
 // Y=Yea  N=Nay  A=Abstain/Recused  X=Absent/Not on record
+// confidence:'pending' = stub added from meeting summary; awaits minute verification
 export const VOTES = [
+  // ── Mar 9 2026 — no formal vote breakdown recovered from meeting summary ────────
+  // TODO: verify Mar 9 2026 vote record against official minutes at georgetownky.gov/AgendaCenter
+  // Meeting summary covers GMWSS rate context and FOX 56 billing complaints — no distinct motions identified.
+
+  // ── Jan 12 2026 ────────────────────────────────────────────────────────────────
+  { id:'v030', date:'Jan 12 2026', yr:'2026', motion:'Adopt Ordinance 26-01 — Zone Change — 1696 Oxford Drive',
+    mover:'', seconder:'', result:'Approved', topic:'ordinance', type:'ordinance', confidence:'pending',
+    sig:'First ordinance of the 2026 calendar year. Rezones a property at 1696 Oxford Drive. Passed at the Jan 12 2026 regular meeting. Mover, seconder, and per-member vote breakdown not yet verified from official minutes.',
+    votes:{} },
+
+  // ── Dec 8 2025 ─────────────────────────────────────────────────────────────────
+  { id:'v031', date:'Dec 8 2025', yr:'2025', motion:'Pledge $5,000 — Bluegrass Recovery Initiative',
+    mover:'', seconder:'', result:'Approved', topic:'finance', type:'payment', confidence:'pending',
+    sig:'Council pledged $5,000 to the Bluegrass Recovery Initiative for mental health and substance use support services in Georgetown. Mover, seconder, and per-member vote breakdown not yet verified from official minutes.',
+    votes:{} },
+
+  { id:'v032', date:'Dec 8 2025', yr:'2025', motion:'GMWSS Reappointment — Jeff Klocke (tabled from Nov 24)',
+    mover:'', seconder:'', result:'Pending verification', topic:'personnel', type:'appointment', confidence:'pending',
+    note:'Originally tabled at Nov 24 2025 meeting (see v011). Addressed at Dec 8 meeting per meeting summary.',
+    sig:'Jeff Klocke\'s GMWSS Board reappointment was addressed at the December 8 meeting after being tabled November 24 under the new resume-review process (Hampton motion, v017). Outcome and per-member breakdown not yet verified from official minutes.',
+    votes:{} },
+
   { id:'v001', date:'Nov 24 2025', yr:'2025', motion:'Approve Minutes from Nov 10 2025',
     mover:'Wilkins Brent', seconder:'Hambrick', result:'Unanimous', topic:'motion', type:'procedural',
     sig:'Routine housekeeping — the Council officially accepted the written record of its previous meeting as accurate. Required at every session so the public record is legally certified.',
@@ -167,4 +190,25 @@ export const VOTES = [
     note:'Different council composition',
     sig:'Declared a state of local emergency in response to the COVID-19 pandemic — one of the most consequential votes in Georgetown\'s recent history. This declaration activated emergency powers, allowed the city to expedite procurement of supplies and services, and enabled operational changes across all departments including police, fire, dispatch, and parks. It established the legal framework for all subsequent pandemic-related city actions.',
     votes:{Brent:'Y',Crisp:'X',Hambrick:'Y',Hampton:'Y',Menke:'X',LusbyMitchell:'Y',TingleSames:'Y',Stone:'Y'} },
+
+  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Dec 8 2025 minutes
+  { id:'v030', date:'Dec 8 2025', yr:'2025', confidence:'pending',
+    motion:'Bluegrass Recovery Initiative — Council Pledge $5,000',
+    mover:'', seconder:'', result:'Approved', topic:'finance', type:'grant',
+    sig:'Council pledged $5,000 to the Bluegrass Recovery Initiative for mental health and substance use support services — final regular meeting of 2025. Additional Dec 8 votes (Jeff Klocke GMWSS reappointment resolution, 9-1-1 fee items) pending extraction from official minutes.',
+    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
+
+  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Jan 12 2026 minutes
+  { id:'v031', date:'Jan 12 2026', yr:'2026', confidence:'pending',
+    motion:'Ordinance 26-01 — Zone Change, 1696 Oxford Drive',
+    mover:'', seconder:'', result:'Passed', topic:'pw', type:'ordinance',
+    sig:'First ordinance of 2026 — rezoned property at 1696 Oxford Drive. First regular meeting of the year included organizational items for the new term. Full vote record for Jan 12 2026 pending verification from official minutes.',
+    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
+
+  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Mar 9 2026 minutes
+  { id:'v032', date:'Mar 9 2026', yr:'2026', confidence:'pending',
+    motion:'Mar 9 2026 Regular Meeting — Full Vote Record Pending',
+    mover:'', seconder:'', result:'', topic:'motion', type:'procedural',
+    sig:'First 2026 regular meeting following the March 1 GMWSS rate increase ($22.90 water + $21.09 sewer, combined $43.99 — +70% vs 2022 baseline). GMWSS under public scrutiny: FOX 56 reported resident billing complaints, 15,404 active customers, 91 leak checks (36 showed flow). Full vote record pending verification from official minutes.',
+    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
 ];

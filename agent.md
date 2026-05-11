@@ -23,7 +23,8 @@ water utility (GMWSS), schools, and elections. Single-page app, no build step.
 | Polling script | `routine/poll.js` |
 
 ## Git Workflow
-- **Commit directly to `main`.** No branches, no PRs.
+- **This is a solo project. Commit and push directly to `main`. Never create branches or PRs.**
+- After committing: `git push origin main`
 - Commit message format: `Weekly update YYYY-MM-DD: <one-line summary>`
 - Stage only files you actually changed. Never `git add -A`.
 

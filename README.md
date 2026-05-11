@@ -19,7 +19,7 @@ Includes: Mayor Burney Jenkins · CAO Devon Golden · City Council (8 members) �
 ~26 City Council meeting records from 2020–2026, with plain-English summaries and direct PDF links. A live pipeline automatically adds new records from the city's official RSS feeds.
 
 ### 🗳️ Vote Records
-29 verified council votes — exact motion text, who moved and seconded, per-member breakdown (Yea / Nay / Abstain / Absent), and a plain-English explanation of what each vote means for residents. Browse as scorecards, a matrix, or a timeline.
+32 council votes — 29 verified (exact motion text, mover/seconder, per-member breakdown) + 3 pending stubs from Dec 8 2025 and Jan 12 2026 meetings awaiting minute verification. Browse as scorecards, a matrix, or a timeline.
 
 ### 📊 Budget & Finance
 General fund (~$44M FY25), $23.6M fund balance, 12 capital projects, grant awards (JAG $147,588, BVP, VAWA, Airport Infrastructure), and the Agency Funding program for nonprofits.
@@ -36,7 +36,7 @@ Major investments tracked with expandable detail and source links:
 - Triple Crown Regional Business Park · Vuteq expansion
 
 ### 📜 Ordinance Registry
-~50 ordinances from 2024–2026, filterable by type. Click any row to expand a plain-English summary and link to the official PDF. Covers all corridor annexations, both adopted budgets, the Columbia Gas Franchise, and the 2025A Water & Sewer Bond.
+40 ordinances from 2024–2026, filterable by type. Click any row to expand a plain-English summary and link to the official PDF. Covers all corridor annexations, both adopted budgets, the Columbia Gas Franchise, and the 2025A Water & Sewer Bond.
 
 ### 🏗️ Zoning & Development
 Active construction projects, recent zone change applications, 2025 P&Z Advisory Committee recommendations, and links to the GSCPC zoning map and 2024 Comprehensive Plan.

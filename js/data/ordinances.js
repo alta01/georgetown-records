@@ -1,7 +1,9 @@
+// TODO: check georgetownky.gov/DocumentCenter for recent adoptions — last entry is Jan 2026 (Ord. 26-01), ~4 months stale as of May 2026
 export const ORDINANCES = [
   // Each entry: { num, year, title, type, url, summary }
   // summary: 1-2 sentence plain-English description for residents
   // url: direct link to PDF when available, otherwise ordinance index
+  // TODO: check georgetownky.gov/DocumentCenter for recent adoptions — newest entry (26-01) is >3 months old as of May 2026
   { num:'26-01', year:2026, title:'Zone Change — 1696 Oxford Drive', type:'zone',
     url:'https://www.georgetownky.gov/2147/Code-of-Ordinances',
     summary:"Rezones a property at 1696 Oxford Drive — the first ordinance passed by Georgetown City Council in 2026. Details of the new zoning classification and permitted uses are in the official document." },
@@ -35,8 +37,8 @@ export const ORDINANCES = [
     summary:"Updates or establishes fee schedules for open burning permits issued by Georgetown Fire & Rescue. Open fire permits are required for controlled burns of debris, vegetation, or other materials within city limits." },
 
   { num:'25-23', year:2025, title:'Columbia Gas Franchise Ordinance', type:'other',
-    url:'https://www.georgetownky.gov/AgendaCenter/ViewFile/Minutes/_09222025-235',
-    summary:"Grants Columbia Gas of Kentucky a franchise to operate natural gas distribution infrastructure within Georgetown city limits. Franchise agreements specify rights-of-way access, service obligations, and the city's regulatory authority. Passed 6-0 at the September 22, 2025 council meeting (two members excused)." },
+    url:'https://www.georgetownky.gov/2147/Code-of-Ordinances',
+    summary:"Grants Columbia Gas of Kentucky a franchise to operate natural gas distribution infrastructure within Georgetown city limits. Franchise agreements specify rights-of-way access, service obligations, and the city's regulatory authority. Passed 6-0 (two members excused) at the September 8, 2025 regular council meeting." },
 
   { num:'25-22', year:2025, title:'Zone Change — 1938 & 2020 Frankfort Road', type:'zone',
     url:'https://www.georgetownky.gov/2147/Code-of-Ordinances',

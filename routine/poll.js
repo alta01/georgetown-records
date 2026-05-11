@@ -215,12 +215,16 @@ async function pollCityFeeds(knownUrls) {
 }
 
 // ── 2. GMWSS board minutes ────────────────────────────────────────────────────
+// gmwss.com/board.htm uses two PDF link formats:
+//   Old (≤2025): /board/minutes/YYYY/M-DD-YYYY.pdf
+//   New (2026+):  /board/Packets/YYYY/GMWSS-Board-Packet-M-DD-YY.pdf
 
 async function pollGMWSS(knownUrls) {
   const found = [];
   try {
     const html       = await throttledFetch('https://gmwss.com/board.htm', 300_000);
-    const pdfPattern = /href="([^"]*board\/minutes\/[^"]+\.pdf)"/gi;
+    // Match both old /board/minutes/ and new /board/Packets/ PDF links
+    const pdfPattern = /href="([^"]*\bboard\/(?:minutes|Packets)\/[^"]+\.pdf)"/gi;
     let match;
     while ((match = pdfPattern.exec(html)) !== null) {
       const path    = match[1];
@@ -229,10 +233,16 @@ async function pollGMWSS(knownUrls) {
       if (!isAllowedUrl(fullUrl)) continue;
       if (knownUrls.has(fullUrl)) continue;
 
-      // Guardrail: reject filenames that don't parse to a valid date
-      const dateMatch = path.match(/(\d{1,2})-(\d{1,2})-(\d{4})\.pdf$/);
-      if (!dateMatch) continue;
-      const d = new Date(parseInt(dateMatch[3]), parseInt(dateMatch[1]) - 1, parseInt(dateMatch[2]));
+      // Parse date — handle both filename formats:
+      //   Old: /board/minutes/YYYY/M-DD-YYYY.pdf  → 4-digit year
+      //   New: /board/Packets/YYYY/GMWSS-Board-Packet-M-DD-YY.pdf → 2-digit year
+      const oldFmt = path.match(/(\d{1,2})-(\d{1,2})-(\d{4})\.pdf$/i);
+      const newFmt = path.match(/GMWSS-Board-Packet-(\d{1,2})-(\d{1,2})-(\d{2})\.pdf$/i);
+      const dm = oldFmt || newFmt;
+      if (!dm) continue;
+      const rawYear = parseInt(dm[3]);
+      const year    = rawYear < 100 ? 2000 + rawYear : rawYear;
+      const d = new Date(year, parseInt(dm[1]) - 1, parseInt(dm[2]));
       if (isNaN(d)) continue;
 
       found.push({
