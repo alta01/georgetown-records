@@ -328,8 +328,9 @@ async function checkWaterRates(env) {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const html = await res.text();
 
-    // Extract fixed rate for first 2,000 gallons/month
+    // Extract fixed rates for first 2,000 gallons/month
     const waterFixed    = html.match(/First\s+2,000\s+Gallons[\s\S]{0,60}\$(\d+\.\d{2})/i)?.[1];
+    const sewerFixed    = html.match(/Sewer[\s\S]{0,200}First\s+2,000\s+Gallons[\s\S]{0,60}\$(\d+\.\d{2})/i)?.[1];
     const effectiveDate = html.match(/Effective\s+([\w\s,]+\d{4})/i)?.[1]?.trim();
 
     if (!waterFixed) {
@@ -339,6 +340,7 @@ async function checkWaterRates(env) {
 
     const snapshot = {
       waterFixed:       parseFloat(waterFixed),
+      sewerFixed:       sewerFixed ? parseFloat(sewerFixed) : null,
       effectiveDate:    effectiveDate || null,
       approvedSchedule: APPROVED_SCHEDULE,
       fetchedAt:        new Date().toISOString(),
@@ -347,13 +349,20 @@ async function checkWaterRates(env) {
     const prevRaw  = await env.KV.get('water-rates');
     const prevSnap = prevRaw ? JSON.parse(prevRaw) : null;
 
-    if (prevSnap && prevSnap.waterFixed !== snapshot.waterFixed) {
-      console.log(`[water] RATE CHANGED $${prevSnap.waterFixed} → $${snapshot.waterFixed} (${effectiveDate})`);
+    const waterChanged = prevSnap && prevSnap.waterFixed !== snapshot.waterFixed;
+    const sewerChanged = prevSnap && snapshot.sewerFixed !== null && prevSnap.sewerFixed !== snapshot.sewerFixed;
+
+    if (waterChanged || sewerChanged) {
+      const changedRates = [
+        waterChanged ? `water $${prevSnap.waterFixed}→$${snapshot.waterFixed}` : null,
+        sewerChanged ? `sewer $${prevSnap.sewerFixed}→$${snapshot.sewerFixed}` : null,
+      ].filter(Boolean).join(', ');
+      console.log(`[water] RATE CHANGED ${changedRates} (${effectiveDate})`);
       const now = new Date();
       const changeItem = {
         guid:      'water-rate-change-' + Date.now(),
         title:     `GMWSS Water Rate Change — ${snapshot.effectiveDate || 'March ' + now.getFullYear()}`,
-        sum:       `Water fixed rate changed from $${prevSnap.waterFixed} to $${snapshot.waterFixed}/mo (first 2,000 gal). Source: gmwss.com/rates.htm`,
+        sum:       `Rate change (first 2,000 gal): ${changedRates}/mo. Source: gmwss.com/rates.htm`,
         url:       'https://gmwss.com/rates.htm',
         mo:        MONTHS[now.getMonth()],
         dy:        String(now.getDate()).padStart(2, '0'),
