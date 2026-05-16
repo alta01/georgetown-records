@@ -191,6 +191,28 @@ export const VOTES = [
     sig:'Declared a state of local emergency in response to the COVID-19 pandemic — one of the most consequential votes in Georgetown\'s recent history. This declaration activated emergency powers, allowed the city to expedite procurement of supplies and services, and enabled operational changes across all departments including police, fire, dispatch, and parks. It established the legal framework for all subsequent pandemic-related city actions.',
     votes:{Brent:'Y',Crisp:'X',Hambrick:'Y',Hampton:'Y',Menke:'X',LusbyMitchell:'Y',TingleSames:'Y',Stone:'Y'} },
 
+  // ── Dec 22 2025 ────────────────────────────────────────────────────────────
+  // Source: Georgetown News-Graphic + CitizenPortal.ai Dec 22 2025 meeting summary
+  { id:'v033', date:'Dec 22 2025', yr:'2025', motion:'Seven Board & Commission Appointments — First-Time Appointees',
+    mover:'', seconder:'', result:'Unanimous (voice vote)', topic:'personnel', type:'appointment', confidence:'pending',
+    sig:'Council unanimously confirmed seven first-time board and commission appointments in a single voice vote: Elizabeth Knight (Board of Ethics), Kita Middleton (Human Rights Commission), Greg Gibson (GMWSS Board of Commissioners), Erin Hsu (Parks & Recreation Board), Tristin Black (Planning Commission), Michael Rath (Local Governments of Scott County Joint Code Enforcement Board), and Jonathan Mifflin (Property Valuation Board of Assessment Appeals). All seven are new appointments, not reappointments — consistent with the resume-review reform adopted at the November 24 meeting. Greg Gibson fills a GMWSS Board seat, joining Wolfe, Klocke, and Baird.',
+    votes:{} },
+
+  { id:'v034', date:'Dec 22 2025', yr:'2025', motion:'Municipal Order — City Hall Audio/Visual System $84,000',
+    mover:'', seconder:'', result:'7-1 (Stone dissenting)', topic:'finance', type:'municipal-order', confidence:'pending',
+    sig:'Approved the purchase and installation of a $84,000 audio/visual system for City Hall, including an overflow room setup for when council chambers reach capacity. This is the only dissenting vote at the December 22 meeting — Councilmember Stone cast the lone "no." The AV upgrade modernizes city council meeting infrastructure and provides overflow accommodations for high-attendance public meetings. Source: Georgetown News-Graphic.',
+    votes:{Brent:'Y',Crisp:'Y',Hambrick:'Y',Hampton:'Y',Menke:'Y',LusbyMitchell:'Y',TingleSames:'Y',Stone:'N'} },
+
+  { id:'v035', date:'Dec 22 2025', yr:'2025', motion:'Routine Utility Purchases — Weiser Construction ($236,290), Evoca Water Technologies ($258,041.07), Dell Server ($16,536)',
+    mover:'', seconder:'', result:'Approved (voice vote)', topic:'finance', type:'payment', confidence:'pending',
+    sig:'Approved three utility and technology purchases: Weiser Construction for water treatment plant maintenance ($236,290); Evoca Water Technologies sole-source ion-resin order ($258,041.07) — sole-source designation means no competitive bid was required for this specialized water treatment material; Dell server hardware ($16,536) for city IT infrastructure. Combined: ~$510,000 in routine operational spending. Source: CitizenPortal.ai Dec 22 2025 meeting summary.',
+    votes:{} },
+
+  { id:'v036', date:'Dec 22 2025', yr:'2025', motion:'$1,000,000 Reinvestment — Laddered U.S. Treasuries via Stockyards Bank',
+    mover:'', seconder:'', result:'Approved (voice vote)', topic:'finance', type:'municipal-order', confidence:'pending',
+    sig:'Approved reinvesting $1,000,000 of city funds in laddered U.S. Treasury securities through Stockyards Bank — the same institution used for the November 24 Stockyards Bank Reinvestment Municipal Order. Laddering means the funds mature at different intervals, giving the city regular access to liquidity while earning Treasury yields. A routine but significant treasury management decision for a city holding ~$23.6M in fund balance. Source: CitizenPortal.ai Dec 22 2025 meeting summary.',
+    votes:{} },
+
   // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Dec 8 2025 minutes
   { id:'v030', date:'Dec 8 2025', yr:'2025', confidence:'pending',
     motion:'Bluegrass Recovery Initiative — Council Pledge $5,000',
