@@ -5,6 +5,7 @@ export const DEPTS = [
     desc:'Chief executive of Georgetown. Mayor Jenkins presides over Council, administers budget, oversees all departments.',
     members:[{
       name:'Burney Jenkins', ini:'BJ', av:'av-gd', title:'Mayor', tags:['t-mayor'],
+      needsVerification: true,  // ran for re-election in May 19 2026 primary — outcome not yet confirmed
       ph:'502-863-9800', f:'verified', photo:IMG(2203), email:'mayor@georgetownky.gov',
       notes:'First Black mayor elected in Georgetown history (Nov 2022). Educator and coach for 46 years. 25 years with Georgetown Parks & Rec.',
       bio:'Burney Jenkins was elected Mayor of Georgetown in November 2022 — the first Black man elected to the position. A Georgetown native and lifelong educator who taught for 46 years and spent 25 years with Georgetown Parks & Recreation, he defeated longtime councilmember David Lusby with 58.7% of the vote. He oversees 245 full-time employees, a ~$44M general fund, and has led City Hall renovation, CAD cloud migration, police expansion, and the Georgetown250 anniversary initiative.',

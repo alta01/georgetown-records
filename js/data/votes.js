@@ -13,29 +13,8 @@ export const MEMBERS_FULL = {
 // Y=Yea  N=Nay  A=Abstain/Recused  X=Absent/Not on record
 // confidence:'pending' = stub added from meeting summary; awaits minute verification
 export const VOTES = [
-  // ── Mar 9 2026 — no formal vote breakdown recovered from meeting summary ────────
-  // TODO: verify Mar 9 2026 vote record against official minutes at georgetownky.gov/AgendaCenter
-  // Meeting summary covers GMWSS rate context and FOX 56 billing complaints — no distinct motions identified.
-
-  // ── Jan 12 2026 ────────────────────────────────────────────────────────────────
-  { id:'v030', date:'Jan 12 2026', yr:'2026', motion:'Adopt Ordinance 26-01 — Zone Change — 1696 Oxford Drive',
-    mover:'', seconder:'', result:'Approved', topic:'ordinance', type:'ordinance', confidence:'pending',
-    sig:'First ordinance of the 2026 calendar year. Rezones a property at 1696 Oxford Drive. Passed at the Jan 12 2026 regular meeting. Mover, seconder, and per-member vote breakdown not yet verified from official minutes.',
-    votes:{} },
-
-  // ── Dec 8 2025 ─────────────────────────────────────────────────────────────────
-  { id:'v031', date:'Dec 8 2025', yr:'2025', motion:'Pledge $5,000 — Bluegrass Recovery Initiative',
-    mover:'', seconder:'', result:'Approved', topic:'finance', type:'payment', confidence:'pending',
-    sig:'Council pledged $5,000 to the Bluegrass Recovery Initiative for mental health and substance use support services in Georgetown. Mover, seconder, and per-member vote breakdown not yet verified from official minutes.',
-    votes:{} },
-
-  { id:'v032', date:'Dec 8 2025', yr:'2025', motion:'GMWSS Reappointment — Jeff Klocke (tabled from Nov 24)',
-    mover:'', seconder:'', result:'Pending verification', topic:'personnel', type:'appointment', confidence:'pending',
-    note:'Originally tabled at Nov 24 2025 meeting (see v011). Addressed at Dec 8 meeting per meeting summary.',
-    sig:'Jeff Klocke\'s GMWSS Board reappointment was addressed at the December 8 meeting after being tabled November 24 under the new resume-review process (Hampton motion, v017). Outcome and per-member breakdown not yet verified from official minutes.',
-    votes:{} },
-
-  { id:'v001', date:'Nov 24 2025', yr:'2025', motion:'Approve Minutes from Nov 10 2025',
+  // ── Nov 24 2025 ———————————————————————————————————————————————————————————————————————————————
+    { id:'v001', date:'Nov 24 2025', yr:'2025', motion:'Approve Minutes from Nov 10 2025',
     mover:'Wilkins Brent', seconder:'Hambrick', result:'Unanimous', topic:'motion', type:'procedural',
     sig:'Routine housekeeping — the Council officially accepted the written record of its previous meeting as accurate. Required at every session so the public record is legally certified.',
     votes:{Brent:'Y',Crisp:'Y',Hambrick:'Y',Hampton:'Y',Menke:'Y',LusbyMitchell:'Y',TingleSames:'Y',Stone:'Y'} },
@@ -160,6 +139,14 @@ export const VOTES = [
     note:'Hambrick and Stone excused',
     sig:'Created a new staff position — CAD Administrator — in the city\'s official personnel plan. This role will manage the CAD (Computer-Aided Dispatch) system used by police and 911 dispatch, which is being migrated to a cloud platform. Creating the position in the ordinance authorizes the city to hire for it and sets its compensation range. It reflects the growing complexity of city technology infrastructure.',
     votes:{Brent:'Y',Crisp:'Y',Hambrick:'X',Hampton:'Y',Menke:'Y',LusbyMitchell:'Y',TingleSames:'Y',Stone:'X'} },
+
+
+  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Jun 9 2025 minutes
+  { id:'v033', date:'Jun 9 2025', yr:'2025', confidence:'pending',
+    motion:'Adopt FY2026 GMWSS Budget — $25,359,991',
+    mover:'', seconder:'', result:'Adopted (voice vote)', topic:'budget', type:'budget',
+    sig:'Council adopted the FY2026 GMWSS operating budget of $25,359,991 total revenue (+18.59% vs FY25) by voice vote. Operating expenses $24,289,856. Capital: $1,794,697 departmental + $2,650,000 Toyota-reimbursed (Fund 2). 150 new connections budgeted. Staff COLA 2.9% + up to 1% merit. ARPA deadline December 2026. Full per-member vote record pending verification from official minutes.',
+    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
 
   { id:'v025', date:'Jun 24 2024', yr:'2024', motion:'Adopt FY2024-25 Annual Budget',
     mover:'', seconder:'', result:'Approved', topic:'budget', type:'budget',
