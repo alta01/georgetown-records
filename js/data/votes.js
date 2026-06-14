@@ -13,28 +13,6 @@ export const MEMBERS_FULL = {
 // Y=Yea  N=Nay  A=Abstain/Recused  X=Absent/Not on record
 // confidence:'pending' = stub added from meeting summary; awaits minute verification
 export const VOTES = [
-  // ── Mar 9 2026 — no formal vote breakdown recovered from meeting summary ────────
-  // TODO: verify Mar 9 2026 vote record against official minutes at georgetownky.gov/AgendaCenter
-  // Meeting summary covers GMWSS rate context and FOX 56 billing complaints — no distinct motions identified.
-
-  // ── Jan 12 2026 ────────────────────────────────────────────────────────────────
-  { id:'v030', date:'Jan 12 2026', yr:'2026', motion:'Adopt Ordinance 26-01 — Zone Change — 1696 Oxford Drive',
-    mover:'', seconder:'', result:'Approved', topic:'ordinance', type:'ordinance', confidence:'pending',
-    sig:'First ordinance of the 2026 calendar year. Rezones a property at 1696 Oxford Drive. Passed at the Jan 12 2026 regular meeting. Mover, seconder, and per-member vote breakdown not yet verified from official minutes.',
-    votes:{} },
-
-  // ── Dec 8 2025 ─────────────────────────────────────────────────────────────────
-  { id:'v031', date:'Dec 8 2025', yr:'2025', motion:'Pledge $5,000 — Bluegrass Recovery Initiative',
-    mover:'', seconder:'', result:'Approved', topic:'finance', type:'payment', confidence:'pending',
-    sig:'Council pledged $5,000 to the Bluegrass Recovery Initiative for mental health and substance use support services in Georgetown. Mover, seconder, and per-member vote breakdown not yet verified from official minutes.',
-    votes:{} },
-
-  { id:'v032', date:'Dec 8 2025', yr:'2025', motion:'GMWSS Reappointment — Jeff Klocke (tabled from Nov 24)',
-    mover:'', seconder:'', result:'Pending verification', topic:'personnel', type:'appointment', confidence:'pending',
-    note:'Originally tabled at Nov 24 2025 meeting (see v011). Addressed at Dec 8 meeting per meeting summary.',
-    sig:'Jeff Klocke\'s GMWSS Board reappointment was addressed at the December 8 meeting after being tabled November 24 under the new resume-review process (Hampton motion, v017). Outcome and per-member breakdown not yet verified from official minutes.',
-    votes:{} },
-
   { id:'v001', date:'Nov 24 2025', yr:'2025', motion:'Approve Minutes from Nov 10 2025',
     mover:'Wilkins Brent', seconder:'Hambrick', result:'Unanimous', topic:'motion', type:'procedural',
     sig:'Routine housekeeping — the Council officially accepted the written record of its previous meeting as accurate. Required at every session so the public record is legally certified.',
