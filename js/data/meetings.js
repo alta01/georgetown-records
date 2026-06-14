@@ -1,5 +1,10 @@
 export const MEETINGS = [
   // ── 2026 ──────────────────────────────────────────────────────────────────
+  // TODO: Verify Jun 8 2026 regular meeting minutes at georgetownky.gov/AgendaCenter — extract vote records
+  { mo:'JUN',dy:'08',yr:'2026',type:'Regular',title:'City Council Regular Meeting',
+    sum:'Regular meeting following the May 19, 2026 primary election. First post-primary meeting — November general election field now set (Jenkins v. Menke for Mayor; 16 council candidates advance). Agenda and minutes pending publication to georgetownky.gov/AgendaCenter.',
+    topics:['motion'],url:'https://www.georgetownky.gov/AgendaCenter',f:'New' },
+
   { mo:'MAY',dy:'18',yr:'2026',type:'Special',title:'Special City Council Meeting',
     sum:'Special meeting held the evening before the May 19 primary election at Scott County Fiscal Court Room, 101 E Main St, Third Floor, 6pm. Specific agenda items pending — official minutes at georgetownky.gov/AgendaCenter.',
     topics:['motion'],url:'https://www.georgetownky.gov/AgendaCenter',f:'New' },
