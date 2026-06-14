@@ -1,27 +1,45 @@
 export const MEETINGS = [
   // ── 2026 ──────────────────────────────────────────────────────────────────
   // TODO: verify May 18 2026 special meeting minutes — meeting scheduled for 6pm at Scott County Fiscal Court Room, 101 E Main St (georgetownky.gov/AgendaCenter)
-  // TODO: verify May 11 2026 regular meeting (2nd Monday) minutes at georgetownky.gov/AgendaCenter
-  // TODO: verify Apr 27 2026 regular meeting (4th Monday) minutes at georgetownky.gov/AgendaCenter
+  { mo:'MAY',dy:'11',yr:'2026',type:'Regular',title:'City Council Regular Meeting',
+    sum:'TODO: Verify minutes at georgetownky.gov/AgendaCenter. Last regular meeting before the May 19 2026 municipal primary election.',
+    topics:['motion'],url:'https://www.georgetownky.gov/AgendaCenter',f:'New' },
+
+  { mo:'APR',dy:'27',yr:'2026',type:'Regular',title:'City Council Regular Meeting',
+    sum:'TODO: Verify minutes at georgetownky.gov/AgendaCenter. Fourth Monday April regular meeting.',
+    topics:['motion'],url:'https://www.georgetownky.gov/AgendaCenter',f:'New' },
 
   { mo:'APR',dy:'16',yr:'2026',type:'Special',title:'Special Meeting — Budget Workshop FY2027',
     sum:'FY2027 department budget requests and preliminary revenue projections presented to City Council. Georgetown Police Department requested 8 additional full-time officers plus a civilian crime analyst — total GPD request $16.2M (+$1.3M vs FY26), with $982,077 in salary/benefits for new officers alone. Georgetown Fire requested no new staff; GFD budget request fell ~$2.2M from FY26\'s $11,543,226. Total operating requests across all departments: ~$49M. Capital project requests: $10.5M. Revenue: payroll tax projected $22.4M (down from $22.8M budgeted in FY26).',
     topics:['budget','finance','personnel'],url:'https://www.georgetownky.gov/AgendaCenter',f:'New' },
 
-  // TODO: verify Apr 13 2026 regular meeting (2nd Monday) minutes at georgetownky.gov/AgendaCenter
-  // TODO: verify Mar 23 2026 regular meeting (4th Monday) minutes at georgetownky.gov/AgendaCenter
+  { mo:'APR',dy:'13',yr:'2026',type:'Regular',title:'City Council Regular Meeting',
+    sum:'TODO: Verify minutes at georgetownky.gov/AgendaCenter. Second Monday April regular meeting.',
+    topics:['motion'],url:'https://www.georgetownky.gov/AgendaCenter',f:'New' },
+
+  { mo:'MAR',dy:'23',yr:'2026',type:'Regular',title:'City Council Regular Meeting',
+    sum:'TODO: Verify minutes at georgetownky.gov/AgendaCenter. Fourth Monday March regular meeting. GMWSS rate increase took effect March 1 — resident billing impact likely discussed.',
+    topics:['water','gmwss','motion'],url:'https://www.georgetownky.gov/AgendaCenter',f:'New' },
 
   { mo:'MAR',dy:'09',yr:'2026',type:'Regular',title:'City Council Regular Meeting',
     sum:'Regular meeting following March 1 GMWSS rate increase ($22.90 water + $21.09 sewer fixed monthly charge, combined $43.99 — +70% vs 2022 baseline). GMWSS under public scrutiny: FOX 56 reported resident billing complaints, 15,404 active customers, 91 leak checks (36 showed flow), and system pressure exceeding 80 PSI per GMWSS written statement. Rate schedule through 2028 fixed by Ordinance 2023.',
     topics:['water','gmwss','finance'],url:'https://www.georgetownky.gov/AgendaCenter',f:'New' },
 
+  { mo:'FEB',dy:'23',yr:'2026',type:'Regular',title:'City Council Regular Meeting',
+    sum:'TODO: Verify minutes at georgetownky.gov/AgendaCenter. Fourth Monday February regular meeting.',
+    topics:['motion'],url:'https://www.georgetownky.gov/AgendaCenter',f:'New' },
+
+  { mo:'FEB',dy:'09',yr:'2026',type:'Regular',title:'City Council Regular Meeting',
+    sum:'TODO: Verify minutes at georgetownky.gov/AgendaCenter. Second Monday February regular meeting.',
+    topics:['motion'],url:'https://www.georgetownky.gov/AgendaCenter',f:'New' },
+
+  { mo:'JAN',dy:'26',yr:'2026',type:'Regular',title:'City Council Regular Meeting',
+    sum:'TODO: Verify minutes at georgetownky.gov/AgendaCenter. Fourth Monday January regular meeting.',
+    topics:['motion'],url:'https://www.georgetownky.gov/AgendaCenter',f:'New' },
+
   { mo:'JAN',dy:'12',yr:'2026',type:'Regular',title:'City Council Regular Meeting',
     sum:'First regular meeting of 2026. Organizational items for new term year. Ord. 26-01 (Zone Change — 1696 Oxford Drive) processed — first ordinance of the 2026 calendar year.',
     topics:['motion','ordinance'],url:'https://www.georgetownky.gov/AgendaCenter',f:'New' },
-
-  // TODO: verify Jan 26 2026 regular meeting (4th Monday) minutes at georgetownky.gov/AgendaCenter
-  // TODO: verify Feb 9 2026 regular meeting (2nd Monday) minutes at georgetownky.gov/AgendaCenter
-  // TODO: verify Feb 23 2026 regular meeting (4th Monday) minutes at georgetownky.gov/AgendaCenter
 
   // ── 2025 ──────────────────────────────────────────────────────────────────
   { mo:'DEC',dy:'22',yr:'2025',type:'Regular',title:'City Council Regular Meeting',
