@@ -1,6 +1,9 @@
 export const MEETINGS = [
   // ── 2026 ──────────────────────────────────────────────────────────────────
-  // TODO: verify May 18 2026 special meeting minutes — meeting scheduled for 6pm at Scott County Fiscal Court Room, 101 E Main St (georgetownky.gov/AgendaCenter)
+  { mo:'MAY',dy:'18',yr:'2026',type:'Special',title:'Special City Council Meeting',
+    sum:'Special meeting held the evening before the May 19 primary election at Scott County Fiscal Court Room, 101 E Main St, Third Floor, 6pm. Specific agenda items pending — official minutes at georgetownky.gov/AgendaCenter.',
+    topics:['motion'],url:'https://www.georgetownky.gov/AgendaCenter',f:'New' },
+
   { mo:'MAY',dy:'11',yr:'2026',type:'Regular',title:'City Council Regular Meeting',
     sum:'TODO: Verify minutes at georgetownky.gov/AgendaCenter. Last regular meeting before the May 19 2026 municipal primary election.',
     topics:['motion'],url:'https://www.georgetownky.gov/AgendaCenter',f:'New' },
