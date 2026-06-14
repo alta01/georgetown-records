@@ -1,5 +1,16 @@
 export const MEETINGS = [
   // ── 2026 ──────────────────────────────────────────────────────────────────
+  // TODO: verify May 18 2026 special meeting minutes — meeting scheduled for 6pm at Scott County Fiscal Court Room, 101 E Main St (georgetownky.gov/AgendaCenter)
+  // TODO: verify May 11 2026 regular meeting (2nd Monday) minutes at georgetownky.gov/AgendaCenter
+  // TODO: verify Apr 27 2026 regular meeting (4th Monday) minutes at georgetownky.gov/AgendaCenter
+
+  { mo:'APR',dy:'16',yr:'2026',type:'Special',title:'Special Meeting — Budget Workshop FY2027',
+    sum:'FY2027 department budget requests and preliminary revenue projections presented to City Council. Georgetown Police Department requested 8 additional full-time officers plus a civilian crime analyst — total GPD request $16.2M (+$1.3M vs FY26), with $982,077 in salary/benefits for new officers alone. Georgetown Fire requested no new staff; GFD budget request fell ~$2.2M from FY26\'s $11,543,226. Total operating requests across all departments: ~$49M. Capital project requests: $10.5M. Revenue: payroll tax projected $22.4M (down from $22.8M budgeted in FY26).',
+    topics:['budget','finance','personnel'],url:'https://www.georgetownky.gov/AgendaCenter',f:'New' },
+
+  // TODO: verify Apr 13 2026 regular meeting (2nd Monday) minutes at georgetownky.gov/AgendaCenter
+  // TODO: verify Mar 23 2026 regular meeting (4th Monday) minutes at georgetownky.gov/AgendaCenter
+
   { mo:'MAR',dy:'09',yr:'2026',type:'Regular',title:'City Council Regular Meeting',
     sum:'Regular meeting following March 1 GMWSS rate increase ($22.90 water + $21.09 sewer fixed monthly charge, combined $43.99 — +70% vs 2022 baseline). GMWSS under public scrutiny: FOX 56 reported resident billing complaints, 15,404 active customers, 91 leak checks (36 showed flow), and system pressure exceeding 80 PSI per GMWSS written statement. Rate schedule through 2028 fixed by Ordinance 2023.',
     topics:['water','gmwss','finance'],url:'https://www.georgetownky.gov/AgendaCenter',f:'New' },
@@ -8,7 +19,15 @@ export const MEETINGS = [
     sum:'First regular meeting of 2026. Organizational items for new term year. Ord. 26-01 (Zone Change — 1696 Oxford Drive) processed — first ordinance of the 2026 calendar year.',
     topics:['motion','ordinance'],url:'https://www.georgetownky.gov/AgendaCenter',f:'New' },
 
+  // TODO: verify Jan 26 2026 regular meeting (4th Monday) minutes at georgetownky.gov/AgendaCenter
+  // TODO: verify Feb 9 2026 regular meeting (2nd Monday) minutes at georgetownky.gov/AgendaCenter
+  // TODO: verify Feb 23 2026 regular meeting (4th Monday) minutes at georgetownky.gov/AgendaCenter
+
   // ── 2025 ──────────────────────────────────────────────────────────────────
+  { mo:'DEC',dy:'22',yr:'2025',type:'Regular',title:'City Council Regular Meeting',
+    sum:'Seven first-time board and commission appointments confirmed by voice vote (all unanimous): Elizabeth Knight to Board of Ethics; Kita Middleton to Human Rights Commission; Greg Gibson to GMWSS Board of Commissioners; Erin Hsu to Parks & Recreation Board; Tristin Black to Planning Commission; Michael Rath to Joint Code Enforcement Board; Jonathan Mifflin to Property Valuation Board of Assessment Appeals. Council approved $84,000 audio/visual system for City Hall (7-1, Stone dissenting) including overflow room. Routine utility purchases approved: Weiser Construction water treatment maintenance $236,290; Evoca Water Technologies ion-resin sole-source $258,041.07; Dell server $16,536. $1,000,000 reinvested in laddered U.S. Treasuries via Stockyards Bank. Accepted donated electronic-storage detection K-9 for investigative work.',
+    topics:['personnel','finance','motion'],url:'https://www.georgetownky.gov/AgendaCenter',f:'New' },
+
   { mo:'DEC',dy:'08',yr:'2025',type:'Regular',title:'City Council Regular Meeting',sum:'Fire Chief Johnson: smoke detector giveaway events. Georgetown250 anniversary updates. Council pledged $5,000 to Bluegrass Recovery Initiative. 9-1-1 fees, insurance premium tax, GMWSS restructuring discussed. Jeff Klocke GMWSS reappointment addressed.',topics:['motion','fire','finance'],url:'https://www.georgetownky.gov/AgendaCenter',f:'New'},
   { mo:'NOV',dy:'24',yr:'2025',type:'Regular',title:'City Council Regular Meeting',sum:'Board reappointments: Frank Allen & Virginia Teague (Board of Adjustment); Renee Causey-Upton & Gui Cozzi (Board of Ethics); Patricia Harman (Housing Authority); April Baker (Human Rights, 7-0/1 recusal); Jason Baird & Kent Chandler (GMWSS). Jeff Klocke GMWSS tabled to Dec 8. BVP Grant approved. Resume requirement motion (Hampton/Menke) — UNANIMOUS. Quarterly financial update: fund balance ~$23.6M, deficit ~$1.5M. Stockyards Bank Reinvestment MO approved. GMWSS payments totaling $296,680.',topics:['finance','police','personnel'],url:'https://www.georgetownky.gov/AgendaCenter/ViewFile/Minutes/_11242025-293',f:'New'},
   { mo:'OCT',dy:'01',yr:'2025',type:'Regular',title:'City Council Regular Meeting',sum:'JAG $147,588 approved for Community Recovery & Support officers. LPR/Intersection Camera Municipal Order approved. VAWA grant approved. Surplus disposal. Hiring 2 patrol officers.',topics:['police','finance','motion'],url:'https://www.georgetownky.gov/AgendaCenter/ViewFile/Agenda/_10012025-263',f:'New'},
