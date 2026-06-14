@@ -191,12 +191,12 @@ export const VOTES = [
     sig:'Approved reinvesting $1,000,000 of city funds in laddered U.S. Treasury securities through Stockyards Bank — the same institution used for the November 24 Stockyards Bank Reinvestment Municipal Order. Laddering means the funds mature at different intervals, giving the city regular access to liquidity while earning Treasury yields. A routine but significant treasury management decision for a city holding ~$23.6M in fund balance. Source: CitizenPortal.ai Dec 22 2025 meeting summary.',
     votes:{} },
 
-  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Dec 8 2025 minutes
-  { id:'v030', date:'Dec 8 2025', yr:'2025', confidence:'pending',
-    motion:'Bluegrass Recovery Initiative — Council Pledge $5,000',
-    mover:'', seconder:'', result:'Approved', topic:'finance', type:'grant',
-    sig:'Council pledged $5,000 to the Bluegrass Recovery Initiative for mental health and substance use support services — final regular meeting of 2025. Additional Dec 8 votes (Jeff Klocke GMWSS reappointment resolution, 9-1-1 fee items) pending extraction from official minutes.',
-    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
+  // Source: CitizenPortal.ai article 7176112 — "Georgetown council agrees to participate in Bluegrass Recovery Initiative after 7-1 vote"
+  { id:'v030', date:'Dec 8 2025', yr:'2025', confidence:'verified',
+    motion:'Participate in Bluegrass Recovery Initiative — Resolution ($5,000 local pledge)',
+    mover:'', seconder:'', result:'7-1 (Menke — No)', topic:'finance', type:'municipal-order',
+    sig:'Council voted 7-1 to adopt a resolution committing Georgetown to participate in the Bluegrass Recovery Initiative (BRI), a regional effort coordinating substance-use-disorder recovery services across a 17-county region. Georgetown\'s local pledge was $5,000, contingent on a larger state award. Councilmember Menke cast the sole no vote, citing concerns about timing and governance — specifically that final decisions in similar regional board structures are often made at the regional rather than local level.',
+    votes:{Brent:'Y',Crisp:'Y',Hambrick:'Y',Hampton:'Y',Menke:'N',LusbyMitchell:'Y',TingleSames:'Y',Stone:'Y'} },
 
   // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Jan 12 2026 minutes
   { id:'v031', date:'Jan 12 2026', yr:'2026', confidence:'pending',
