@@ -233,4 +233,12 @@ export const VOTES = [
     mover:'', seconder:'', result:'', topic:'motion', type:'procedural',
     sig:'First 2026 regular meeting following the March 1 GMWSS rate increase ($22.90 water + $21.09 sewer, combined $43.99 — +70% vs 2022 baseline). GMWSS under public scrutiny: FOX 56 reported resident billing complaints, 15,404 active customers, 91 leak checks (36 showed flow). Full vote record pending verification from official minutes.',
     votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
+
+  // ── Jun 9 2025 ────────────────────────────────────────────────────────────────
+  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Jun 9 2025 minutes
+  { id:'v037', date:'Jun 9 2025', yr:'2025', confidence:'pending',
+    motion:'Adopt FY2026 GMWSS Budget — $25,359,991 Total Revenue',
+    mover:'', seconder:'', result:'Approved (voice vote)', topic:'budget', type:'budget',
+    sig:'Council adopted the FY2026 GMWSS water and sewer budget by voice vote: $25,359,991 total revenue (+18.59% vs FY25). Operating expenses $24,289,856. Capital: $1,794,697 departmental + $2,650,000 Toyota-reimbursed (Fund 2). 150 new connections budgeted. Staff COLA 2.9% + up to 1% merit. ARPA deadline December 2026. Per-member vote breakdown pending verification from official minutes.',
+    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
 ];
