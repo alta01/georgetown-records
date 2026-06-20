@@ -212,6 +212,17 @@ export const VOTES = [
     sig:'First 2026 regular meeting following the March 1 GMWSS rate increase ($22.90 water + $21.09 sewer, combined $43.99 — +70% vs 2022 baseline). GMWSS under public scrutiny: FOX 56 reported resident billing complaints, 15,404 active customers, 91 leak checks (36 showed flow). Full vote record pending verification from official minutes.',
     votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
 
+  // ── Nov 10 2025 ───────────────────────────────────────────────────────────────
+  // Sources: Georgetown News-Graphic "GMWSS Bond Sale approved" + CitizenPortal.ai article 7045423
+  // Ord. 25-30 (first amended bond framework) and Ord. 25-31 (Series 2025A $72M bonds) both adopted.
+  // Crisp moved to table; motion to table failed; Crisp then voted No on the bond sale.
+  // Tingle Sames was absent from this meeting. Bond closed Dec 9, 2025 with BofA at 4.24%.
+  { id:'v038', date:'Nov 10 2025', yr:'2025', confidence:'verified',
+    motion:'GMWSS $72,030,000 Bond Sale Authorization — Ordinance 25-31 (Series 2025A Water and Sewer Revenue Bond)',
+    mover:'', seconder:'', result:'6-1 (Crisp — No; Tingle Sames — Absent)', topic:'finance', type:'bond',
+    sig:'Authorized the sale of $72,030,000 in GMWSS Water and Sewer Revenue and Revenue Refunding Bonds (Series 2025A) — the largest single financial action taken by the Council in recent years. Bonds primarily fund the WWTP1 wastewater treatment plant expansion that Georgetown has been financing since 2022, with $10M going to additional capital needs. Total bond repayment estimated at $139,066,137 over the life of the bonds. Councilmember Crisp was the lone dissenter — his motion to table the vote for further review failed before he cast his No vote. Karen Tingle Sames was absent. The bond sale closed December 9, 2025 with BofA Securities submitting the winning bid at a 4.24% true interest cost, significantly below the projected 4.6%, generating approximately $1.8M in additional premium funding.',
+    votes:{Brent:'Y',Crisp:'N',Hambrick:'Y',Hampton:'Y',Menke:'Y',LusbyMitchell:'Y',TingleSames:'X',Stone:'Y'} },
+
   // ── Jun 9 2025 ────────────────────────────────────────────────────────────────
   // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Jun 9 2025 minutes
   { id:'v037', date:'Jun 9 2025', yr:'2025', confidence:'pending',
