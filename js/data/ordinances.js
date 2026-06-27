@@ -1,4 +1,4 @@
-// TODO: check georgetownky.gov/DocumentCenter for recent adoptions — last verified entry is 26-03; check for 26-04 and beyond
+// TODO: check georgetownky.gov/DocumentCenter for recent adoptions — last verified 2026 entry is 26-03 (no 26-04 found as of Jun 20 2026); also added 25-30 from DocumentCenter View/3333
 export const ORDINANCES = [
   // Each entry: { num, year, title, type, url, summary }
   // summary: 1-2 sentence plain-English description for residents
@@ -13,9 +13,13 @@ export const ORDINANCES = [
     url:'https://www.georgetownky.gov/2147/Code-of-Ordinances',
     summary:"Rezones a property at 1696 Oxford Drive — the first ordinance passed by Georgetown City Council in 2026. Details of the new zoning classification and permitted uses are in the official document." },
 
-  { num:'25-31', year:2025, title:'Series 2025A Water and Sewer Bond', type:'bond',
+  { num:'25-31', year:2025, title:'Series 2025A Water and Sewer Revenue Bond', type:'bond',
     url:'https://www.georgetownky.gov/2147/Code-of-Ordinances',
-    summary:"Authorizes the issuance of Series 2025A municipal bonds to finance water and sewer infrastructure improvements throughout Georgetown. Bond proceeds fund capital projects for the Georgetown Municipal Water & Sewer System (GMWSS)." },
+    summary:"Authorizes the issuance of $72,030,000 in Series 2025A GMWSS Water and Sewer Revenue and Revenue Refunding Bonds. Passed 6-1 at the November 10, 2025 regular council meeting (Crisp — No; Tingle Sames — Absent). Bonds primarily finance the WWTP1 wastewater treatment plant expansion. Companion ordinance to Ord. 25-30 (the base bond framework). Bond sale closed December 9, 2025 with BofA Securities as winning bidder at 4.24% true interest cost — below the projected 4.6%." },
+
+  { num:'25-30', year:2025, title:'First Amended and Restated General Bond Ordinance — Water and Sewer', type:'bond',
+    url:'https://www.georgetownky.gov/DocumentCenter/View/3333/25-30-Georgetown-WS-Bond',
+    summary:"Adopts a new framework bond ordinance governing the issuance of GMWSS water and sewer revenue bonds, replacing the city's prior bond ordinance. Prepared by Dinsmore & Shohl LLP as bond counsel. Passed on second reading at the November 10, 2025 council meeting. This base ordinance (companion to Ord. 25-31) establishes the legal structure and covenants that allow GMWSS to issue revenue bonds secured by system revenues." },
 
   { num:'25-29', year:2025, title:'Budget Amendment FY2025–26', type:'budget',
     url:'https://www.georgetownky.gov/2147/Code-of-Ordinances',
