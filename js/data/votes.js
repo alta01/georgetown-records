@@ -230,4 +230,68 @@ export const VOTES = [
     mover:'', seconder:'', result:'Approved (voice vote)', topic:'budget', type:'budget',
     sig:'Council adopted the FY2026 GMWSS water and sewer budget by voice vote: $25,359,991 total revenue (+18.59% vs FY25). Operating expenses $24,289,856. Capital: $1,794,697 departmental + $2,650,000 Toyota-reimbursed (Fund 2). 150 new connections budgeted. Staff COLA 2.9% + up to 1% merit. ARPA deadline December 2026. Per-member vote breakdown pending verification from official minutes.',
     votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
+
+  // ── 2026 stubs (Jan–Jun) ──────────────────────────────────────────────────────
+  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Jan 26 2026 minutes
+  { id:'v039', date:'Jan 26 2026', yr:'2026', confidence:'pending',
+    motion:'Jan 26 2026 Regular Meeting — Full Vote Record Pending',
+    mover:'', seconder:'', result:'', topic:'motion', type:'procedural',
+    sig:'Fourth Monday January 2026 regular meeting. Full vote record pending verification from official minutes.',
+    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
+
+  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Feb 9 2026 minutes
+  { id:'v040', date:'Feb 9 2026', yr:'2026', confidence:'pending',
+    motion:'Feb 9 2026 Regular Meeting — Full Vote Record Pending',
+    mover:'', seconder:'', result:'', topic:'motion', type:'procedural',
+    sig:'Second Monday February 2026 regular meeting. Full vote record pending verification from official minutes.',
+    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
+
+  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Feb 23 2026 minutes
+  { id:'v041', date:'Feb 23 2026', yr:'2026', confidence:'pending',
+    motion:'Feb 23 2026 Regular Meeting — Full Vote Record Pending',
+    mover:'', seconder:'', result:'', topic:'motion', type:'procedural',
+    sig:'Fourth Monday February 2026 regular meeting. Full vote record pending verification from official minutes.',
+    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
+
+  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Mar 23 2026 minutes
+  { id:'v042', date:'Mar 23 2026', yr:'2026', confidence:'pending',
+    motion:'Mar 23 2026 Regular Meeting — Full Vote Record Pending',
+    mover:'', seconder:'', result:'', topic:'motion', type:'procedural',
+    sig:'Fourth Monday March 2026 regular meeting, following the March 1 GMWSS rate increase. Full vote record pending verification from official minutes.',
+    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
+
+  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Apr 13 2026 minutes
+  { id:'v043', date:'Apr 13 2026', yr:'2026', confidence:'pending',
+    motion:'Apr 13 2026 Regular Meeting — Full Vote Record Pending',
+    mover:'', seconder:'', result:'', topic:'motion', type:'procedural',
+    sig:'Second Monday April 2026 regular meeting. Full vote record pending verification from official minutes.',
+    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
+
+  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Apr 27 2026 minutes
+  { id:'v044', date:'Apr 27 2026', yr:'2026', confidence:'pending',
+    motion:'Apr 27 2026 Regular Meeting — Full Vote Record Pending',
+    mover:'', seconder:'', result:'', topic:'motion', type:'procedural',
+    sig:'Fourth Monday April 2026 regular meeting. Full vote record pending verification from official minutes.',
+    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
+
+  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter May 11 2026 minutes
+  { id:'v045', date:'May 11 2026', yr:'2026', confidence:'pending',
+    motion:'May 11 2026 Regular Meeting — Full Vote Record Pending',
+    mover:'', seconder:'', result:'', topic:'motion', type:'procedural',
+    sig:'Second Monday May 2026 regular meeting — last regular meeting before the May 19 primary election. Full vote record pending verification from official minutes.',
+    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
+
+  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter May 18 2026 special meeting minutes
+  { id:'v046', date:'May 18 2026', yr:'2026', confidence:'pending',
+    motion:'May 18 2026 Special Meeting — Full Vote Record Pending',
+    mover:'', seconder:'', result:'', topic:'motion', type:'procedural',
+    sig:'Special meeting held the evening before the May 19 2026 primary election at Scott County Fiscal Court Room. Full vote record pending verification from official minutes.',
+    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
+
+  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Jun 8 2026 minutes
+  { id:'v047', date:'Jun 8 2026', yr:'2026', confidence:'pending',
+    motion:'Jun 8 2026 Regular Meeting — Full Vote Record Pending',
+    mover:'', seconder:'', result:'', topic:'motion', type:'procedural',
+    sig:'First regular meeting following the May 19 2026 primary election. Jenkins v. Menke advance to the November 3 general election for Mayor; 16 council candidates advance. Full vote record pending verification from official minutes.',
+    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
 ];
