@@ -212,6 +212,13 @@ export const VOTES = [
     sig:'First 2026 regular meeting following the March 1 GMWSS rate increase ($22.90 water + $21.09 sewer, combined $43.99 — +70% vs 2022 baseline). GMWSS under public scrutiny: FOX 56 reported resident billing complaints, 15,404 active customers, 91 leak checks (36 showed flow). Full vote record pending verification from official minutes.',
     votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
 
+  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Oct 27 2025 minutes — first readings of Ord. 25-30 and Ord. 25-31 (GMWSS bond ordinances) + Suffoletta Park pool addition
+  { id:'v049', date:'Oct 27 2025', yr:'2025', confidence:'pending',
+    motion:'Oct 27 2025 Regular Meeting — Full Vote Record Pending',
+    mover:'', seconder:'', result:'', topic:'finance', type:'ordinance',
+    sig:'Regular meeting at which the first readings of Ord. 25-30 (First Amended and Restated General Bond Ordinance) and Ord. 25-31 (Series 2025A $72M Water and Sewer Revenue Bond) were presented. Council also approved design funding for a Suffoletta Park pool addition. Full vote record pending verification from official minutes at georgetownky.gov/AgendaCenter.',
+    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
+
   // ── Nov 10 2025 ───────────────────────────────────────────────────────────────
   // Sources: Georgetown News-Graphic "GMWSS Bond Sale approved" + CitizenPortal.ai article 7045423
   // Ord. 25-30 (first amended bond framework) and Ord. 25-31 (Series 2025A $72M bonds) both adopted.
@@ -286,6 +293,13 @@ export const VOTES = [
     motion:'May 18 2026 Special Meeting — Full Vote Record Pending',
     mover:'', seconder:'', result:'', topic:'motion', type:'procedural',
     sig:'Special meeting held the evening before the May 19 2026 primary election at Scott County Fiscal Court Room. Full vote record pending verification from official minutes.',
+    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
+
+  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Jun 22 2026 minutes — FY2026-27 budget adoption expected (proposed $47.1M general fund revenue per May 12 workshop)
+  { id:'v048', date:'Jun 22 2026', yr:'2026', confidence:'pending',
+    motion:'Jun 22 2026 Regular Meeting — Full Vote Record Pending',
+    mover:'', seconder:'', result:'', topic:'budget', type:'budget',
+    sig:'Fourth Monday regular meeting. FY2026-27 budget adoption is anticipated at this meeting, consistent with prior-year pattern (FY2025-26 adopted June 23, 2025). Mayor Jenkins proposed ~$47.1M general fund revenue (+7% vs FY26) at the May 12 budget workshop. Full vote record pending verification from official minutes at georgetownky.gov/AgendaCenter.',
     votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
 
   // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Jun 8 2026 minutes

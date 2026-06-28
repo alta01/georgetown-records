@@ -198,6 +198,7 @@ export const RACES_CITY = [
   },
 ];
 
+// TODO: Verify May 19 2026 primary outcomes for Scott County and KY State races with Scott County Clerk (scottcountyclerk.ky.gov / 502-863-7875). City mayor/council results are confirmed below; county and state race results are pending.
 export const RACES_COUNTY = [
   {
     id: 'judge-exec', icon: '🏛️',
@@ -206,10 +207,10 @@ export const RACES_COUNTY = [
     meta: 'Republican primary · Incumbent running unopposed',
     intro: 'The Judge/Executive is the chief executive of Scott County, presiding over the Fiscal Court. Appears on the ballot for all Scott County residents.',
     candidates: [
-      { name:'Joe Pat Covington', status:'★ Incumbent (unopposed)', incumbent:true,
+      { name:'Joe Pat Covington', status:'★ Incumbent (unopposed) — Advances to Nov 3 general', incumbent:true,
         memberName:'Scott County Fiscal Court', deptName:'Scott County Fiscal Court',
         av:'av-gd', ini:'JC', photo:null,
-        notes:'Incumbent Scott County Judge/Executive. Running unopposed in Republican primary.' },
+        notes:'Incumbent Scott County Judge/Executive. Ran unopposed in May 19 Republican primary — advances automatically to Nov 3 general election.' },
     ]
   },
   {
@@ -219,7 +220,8 @@ export const RACES_COUNTY = [
     meta: 'Republican primary',
     intro: 'The County Clerk maintains public records including deeds, elections, and vehicle titles.',
     candidates: [
-      { name:'Neryssa Crisp', status:'Filed (R)', incumbent:false, notes:'Filed for Scott County Clerk, January 2026.' },
+      // TODO: Verify May 19 2026 primary result for Scott County Clerk race — confirm Neryssa Crisp status with Scott County Clerk (scottcountyclerk.ky.gov / 502-863-7875)
+      { name:'Neryssa Crisp', status:'Filed (R) — May 19 primary result pending verification', incumbent:false, notes:'Filed for Scott County Clerk, January 2026. Primary outcome not yet reflected — verify at scottcountyclerk.ky.gov.' },
     ]
   },
   {
@@ -229,11 +231,13 @@ export const RACES_COUNTY = [
     meta: 'Republican primary',
     intro: 'The County Coroner investigates deaths within Scott County.',
     candidates: [
-      { name:'Mark Sutton', status:'Filed (R)', incumbent:false, notes:'Filed for Scott County Coroner, January 2026.' },
+      // TODO: Verify May 19 2026 primary result for Scott County Coroner race — confirm Mark Sutton status with Scott County Clerk (scottcountyclerk.ky.gov / 502-863-7875)
+      { name:'Mark Sutton', status:'Filed (R) — May 19 primary result pending verification', incumbent:false, notes:'Filed for Scott County Coroner, January 2026. Primary outcome not yet reflected — verify at scottcountyclerk.ky.gov.' },
     ]
   },
 ];
 
+// TODO: Verify KY House District 62 and KY Senate District 17 May 19 2026 primary results — check Kentucky SOS (sos.ky.gov) or GoVote.ky.gov for certified outcomes
 export const RACES_STATE = [
   {
     id: 'house62', icon: '🏦',
@@ -242,9 +246,11 @@ export const RACES_STATE = [
     meta: 'Partisan primary · Includes much of Scott County',
     intro: 'District 62 includes much of Scott County. Confirm your district at GoVote.ky.gov.',
     candidates: [
-      { name:'Tony Hampton (R)',     status:'Filed', incumbent:false, notes:'Republican candidate. Georgetown area.' },
-      { name:'Matthew Marshall (D)', status:'Filed', incumbent:false, notes:'Democratic candidate.' },
-      { name:'Randy Simpkins (D)',   status:'Filed', incumbent:false, notes:'Democratic candidate.' },
+      // TODO: Verify May 19 2026 primary results for House 62 — Tony Hampton (R) won R primary? Check sos.ky.gov
+      { name:'Tony Hampton (R)',     status:'Filed — May 19 primary result pending verification', incumbent:false, notes:'Republican candidate. Georgetown area. Primary outcome not yet reflected — verify at sos.ky.gov.' },
+      // TODO: Verify May 19 2026 Democratic primary for House 62 — Marshall vs. Simpkins result pending
+      { name:'Matthew Marshall (D)', status:'Filed — May 19 primary result pending verification', incumbent:false, notes:'Democratic candidate. Primary result vs. Randy Simpkins pending verification at sos.ky.gov.' },
+      { name:'Randy Simpkins (D)',   status:'Filed — May 19 primary result pending verification', incumbent:false, notes:'Democratic candidate. Primary result vs. Matthew Marshall pending verification at sos.ky.gov.' },
     ]
   },
   {
@@ -254,9 +260,10 @@ export const RACES_STATE = [
     meta: 'Partisan primary · Includes Scott County · Open seat',
     intro: 'Damon Thayer did not seek re-election after 2025 legislative session. District 17 covers Scott County.',
     candidates: [
-      { name:'Julia Jaddock (R)',  status:'Filed', incumbent:false, notes:'Republican candidate from Georgetown.' },
-      { name:'Matt Nunn (R)',      status:'Filed', incumbent:false, notes:'Republican candidate from Sadieville.' },
-      { name:'Kiana Fields (D)',   status:'Filed', incumbent:false, notes:'Democratic candidate from Georgetown.' },
+      // TODO: Verify May 19 2026 Republican primary for Senate 17 — Jaddock vs. Nunn result pending — check sos.ky.gov
+      { name:'Julia Jaddock (R)',  status:'Filed — May 19 primary result pending verification', incumbent:false, notes:'Republican candidate from Georgetown. R primary result vs. Matt Nunn pending verification at sos.ky.gov.' },
+      { name:'Matt Nunn (R)',      status:'Filed — May 19 primary result pending verification', incumbent:false, notes:'Republican candidate from Sadieville. R primary result vs. Julia Jaddock pending verification at sos.ky.gov.' },
+      { name:'Kiana Fields (D)',   status:'Advancing to Nov 3 general (ran unopposed in D primary)', incumbent:false, notes:'Democratic candidate from Georgetown. Ran unopposed in May 19 Democratic primary — advances to Nov 3 general election.' },
     ]
   },
 ];
