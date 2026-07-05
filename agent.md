@@ -46,17 +46,25 @@ Subject lines and body format are specified in the routine prompt.
 Do not send — draft only.
 
 ## Key Data Conventions
-- Dates: `'YYYY-MM-DD'` strings
-- Confidence: `'verified'` | `'pending'` | `'estimated'`
-- All vote objects reference a meeting date that must exist in `meetings.js`
-- Ordinance objects require: `id`, `title`, `date`, `status`, and either `url` or `sourceNote`
-- Election candidate objects require: `name`, `office`, `party`, `filingStatus`
+- Vote objects (`votes.js`): `id`, `date` (e.g. `'Nov 24 2025'`), `yr`, `motion`, `mover`, `seconder`,
+  `result`, `topic`, `type`, `sig` (plain-English significance), `votes` (per-member `Y`/`N`/`A`/`—` map),
+  `note` (optional), `confidence` (set to `'pending'` for stub records awaiting minute verification;
+  most verified votes simply omit the field rather than setting it to `'verified'`, though either is fine)
+- Vote `date`/`yr` should correspond to a real council meeting; add a stub to `meetings.js` if one doesn't exist yet
+- Ordinance objects (`ordinances.js`): `num`, `year`, `title`, `type`, `url`, `summary`
+- Election candidate objects (`elections.js`): `name`, `status`, `incumbent`, `memberName`, `deptName`, `av`, `ini`, `photo`, `notes`
 - Officials with unconfirmed current roles: add `needsVerification: true`
 
 ## Data Sources (manual lookup — no scraping in routine)
 - City votes/minutes: georgetownky.gov/AgendaCenter
 - Ordinances: georgetownky.gov/DocumentCenter
+- Planning Commission: gscplanning.com/meetingrecords
 - GMWSS rates: gmwss.com/rates.htm
 - GMWSS board minutes: gmwss.com (3rd Tuesday monthly)
-- School data: KDE Report Card (kde.ky.gov)
-- Elections: Scott County Clerk, Kentucky SOS
+- School data: KDE School Report Card (reportcard.kyschools.us)
+- Elections: Scott County Clerk (scottcountyclerk.ky.gov), GoVote.ky.gov
+
+A live pipeline (Cloudflare Worker, see `PIPELINE.md`) already polls RSS feeds,
+GMWSS, and the Planning Commission automatically — these manual sources are
+for cross-checking and filling gaps the pipeline can't reach (vote details,
+ordinance summaries, school/election data).

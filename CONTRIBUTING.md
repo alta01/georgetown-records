@@ -40,11 +40,12 @@ All data in this index must come from official government sources:
 
 ## Updating the App
 
-The entire app is `index.html` — a single self-contained file. To contribute code:
+The app is `index.html` plus `css/style.css` and the ES modules under `js/`
+(app logic in `js/*.js`, data files in `js/data/*.js`). There's no build step.
 
 1. Fork the repository
-2. Edit `index.html` directly
-3. Test locally by opening in a browser (`file://` is fine for most features)
+2. Edit the relevant file(s) — most data corrections belong in `js/data/*.js`; UI/logic changes go in `js/*.js` or `css/style.css`
+3. Test locally by serving the directory (module scripts require `http://`, not `file://` — e.g. `npx serve .` or `python3 -m http.server`)
 4. Open a Pull Request with a clear description of what changed and why
 
 For pipeline/Worker changes, see [PIPELINE.md](PIPELINE.md).
