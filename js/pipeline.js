@@ -74,7 +74,7 @@ export async function loadPipeline() {
             <div class="mdate"><div class="mmo">${m.mo}</div><div class="mday">${m.dy}</div><div class="myr">${m.yr}</div></div>
             <div class="mbody"><div class="mtitle">${m.title}</div>
               <div class="msum">${(m.sum||'').slice(0,100)}${(m.sum||'').length>100?'…':''}</div>
-              ${m.url?`<a href="${m.url}" target="_blank" rel="noopener" class="mlink" style="margin-top:4px;display:inline-block">View official record ↗</a>`:''}</div>
+              ${m.url?`<a href="${_esc(m.url)}" target="_blank" rel="noopener" class="mlink" style="margin-top:4px;display:inline-block">View official record ↗</a>`:''}</div>
           </div>`).join('');
         nrDiv.style.display = '';
       }

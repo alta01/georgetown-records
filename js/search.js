@@ -12,10 +12,19 @@ import { scope, activeQ, setActiveQ, SCOPE_MAP, lidx, docMap, allDocs, setIndex,
          setScope as _setScope } from './state.js';
 
 // URL validation for photo/link attributes
+// Returns an HTML-attribute-escaped string; both callers inline this directly
+// into a src="..." or href="..." attribute, so escaping here (not just
+// protocol/host-checking) is required to stop a quote in an untrusted url
+// from breaking out of the attribute.
 const ALLOWED_HOSTS = ['georgetownky.gov', 'www.georgetownky.gov', 'gscplanning.com', 'www.gscplanning.com', 'scottky.gov', 'www.scottky.gov'];
 function _safeUrl(u) {
   if (!u) return '';
-  try { const p = new URL(u); if (p.protocol !== 'https:' && p.protocol !== 'http:') return ''; if (!ALLOWED_HOSTS.some(h => p.hostname === h || p.hostname.endsWith('.' + h))) return ''; return u; } catch { return ''; }
+  try {
+    const p = new URL(u);
+    if (p.protocol !== 'https:' && p.protocol !== 'http:') return '';
+    if (!ALLOWED_HOSTS.some(h => p.hostname === h || p.hostname.endsWith('.' + h))) return '';
+    return u.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  } catch { return ''; }
 }
 
 export function rebuildIndex() {
