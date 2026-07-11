@@ -30,11 +30,16 @@ export function hl(t, q) {
 export function safeId(name) { return name.replace(/\W/g,'-'); }
 
 // URL validation — reject javascript: and data: protocols
+// Returns an HTML-attribute-escaped string; every caller inlines this directly
+// into an href="..." attribute, so escaping here (not just protocol-checking)
+// is required to stop a quote in an untrusted url from breaking out of the attribute.
 function safeHref(url) {
   if (!url) return '';
   try {
     const u = new URL(url);
-    if (u.protocol === 'https:' || u.protocol === 'http:' || u.protocol === 'mailto:' || u.protocol === 'tel:') return url;
+    if (u.protocol === 'https:' || u.protocol === 'http:' || u.protocol === 'mailto:' || u.protocol === 'tel:') {
+      return url.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
     return '';
   } catch { return ''; }
 }
