@@ -11,9 +11,5 @@ crons = ["*/30 * * * *", "0 10 * * *"]
 binding = "KV"
 id = "a12ac72ca7354ff090b1aa34e17305fb"
 
-[[r2_buckets]]
-binding = "R2"
-bucket_name = "gtky-records"
-
 # Secrets — set via CLI, never committed:
 #   wrangler secret put ANTHROPIC_KEY
