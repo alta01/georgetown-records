@@ -48,8 +48,7 @@ script (`routine/poll.js`) is a separate, independently-runnable tool that
 polls the same sources and can push results into the same KV store — it does
 not talk to the browser directly.
 
-There is **no R2 usage** in the current code, despite an `r2_buckets` binding
-still present in `worker/wrangler.toml`. All pipeline storage is Cloudflare KV
+There is **no R2 usage** in the current code. All pipeline storage is Cloudflare KV
 (`records`, `water-rates`, `poll-status`, plus per-item `seen:*` / `gmwss-seen:*`
 / `plan-seen:*` dedup keys and `ctx:*` enrichment cache keys).
 
@@ -132,11 +131,6 @@ crons = ["*/30 * * * *", "0 10 * * *"]
 [[kv_namespaces]]
 binding = "KV"
 id = "YOUR_KV_NAMESPACE_ID"
-
-[[r2_buckets]]
-binding = "R2"
-bucket_name = "gtky-records"
-# Currently unused by worker.js — kept for historical/future use.
 
 # Secrets — set via CLI, never committed:
 #   wrangler secret put ANTHROPIC_KEY
