@@ -308,20 +308,4 @@ export const VOTES = [
     mover:'', seconder:'', result:'', topic:'motion', type:'procedural',
     sig:'First regular meeting following the May 19 2026 primary election. Jenkins v. Menke advance to the November 3 general election for Mayor; 16 council candidates advance. Full vote record pending verification from official minutes.',
     votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
-
-  // ── stub added Weekly update 2026-07-05: meeting exists in meetings.js with no matching vote entry ──
-  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Jun 22 2026 minutes
-  { id:'v048', date:'Jun 22 2026', yr:'2026', confidence:'pending',
-    motion:'Jun 22 2026 Regular Meeting — Full Vote Record Pending',
-    mover:'', seconder:'', result:'', topic:'budget', type:'procedural',
-    sig:'Fourth Monday June regular meeting. FY2026-27 budget adoption anticipated, consistent with prior-year pattern. Full vote record pending verification from official minutes.',
-    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
-
-  // ── stub added Weekly update 2026-07-05: meeting exists in meetings.js with no matching vote entry ──
-  // TODO: Pull full vote record from georgetownky.gov/AgendaCenter Oct 27 2025 minutes
-  { id:'v049', date:'Oct 27 2025', yr:'2025', confidence:'pending',
-    motion:'Oct 27 2025 Regular Meeting — Full Vote Record Pending (Ord. 25-30/25-31 First Reading)',
-    mover:'', seconder:'', result:'', topic:'finance', type:'procedural',
-    sig:'First reading of Ord. 25-30 (bond framework) and Ord. 25-31 (Series 2025A $72M bond) for GMWSS\'s WWTP1 expansion financing; also Suffoletta Park pool addition design funding. Full vote record pending verification from official minutes.',
-    votes:{Brent:'',Crisp:'',Hambrick:'',Hampton:'',Menke:'',LusbyMitchell:'',TingleSames:'',Stone:''} },
 ];
